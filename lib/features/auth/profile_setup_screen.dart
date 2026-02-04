@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'auth_button.dart';
-import 'base_auth_widget.dart';
-import 'custom_text_field.dart';
+import 'widget/auth_button.dart';
+import 'widget/base_layout.dart';
+import 'widget/custom_text_field.dart';
 
-class ProfileDetailsScreen extends StatelessWidget {
+class ProfileSetupScreen extends StatelessWidget {
   final VoidCallback onComplete;
-  const ProfileDetailsScreen({super.key, required this.onComplete});
+  const ProfileSetupScreen({super.key, required this.onComplete});
 
   @override
   Widget build(BuildContext context) {
@@ -14,18 +14,18 @@ class ProfileDetailsScreen extends StatelessWidget {
       subtitle: "Help us get to know you better",
       child: Column(
         children: [
-          customTextField(
+          CustomTextField(
             hint: "Full Name",
             icon: Icons.person_outline_rounded,
           ),
           const SizedBox(height: 20),
-          customTextField(
+          CustomTextField(
             hint: "Date of Birth",
             icon: Icons.cake_outlined,
             readOnly: true,
           ),
           const SizedBox(height: 40),
-          gradientButton(text: "Complete Setup", onTap: onComplete),
+          GradientButton(text: "Complete Setup", onPressed: onComplete),
         ],
       ),
     );

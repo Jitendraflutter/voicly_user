@@ -3,6 +3,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/constants/app_strings.dart';
+import 'package:voicly/core/route/app_route.dart';
+import 'package:voicly/features/coin/coin_screen.dart';
+import 'package:voicly/features/profile/profile_screen.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 import '../../core/constants/app_colors.dart';
 
@@ -72,8 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
           children: [
             CupertinoButton(
               padding: EdgeInsets.zero,
-              onPressed: () => setState(() => isGridView = !isGridView),
-
+              onPressed: () => AppRoute.push(CoinScreen()),
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -81,18 +83,57 @@ class _HomeScreenState extends State<HomeScreen> {
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(color: Colors.white.withOpacity(0.3)),
                 ),
-                child: Icon(
-                  isGridView
-                      ? CupertinoIcons.list_bullet
-                      : CupertinoIcons.square_grid_2x2,
-                  color: AppColors.onBackground,
-                  size: 20,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.amber.withOpacity(0.4),
+                            blurRadius: 8,
+                            spreadRadius: 1,
+                          ),
+                        ],
+                      ),
+                      child: const Icon(
+                        Icons.monetization_on_rounded,
+                        color: Colors.amber,
+                        size: 18,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    const Text(
+                      "1,250",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.onBackground,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),
             const SizedBox(width: 12),
-
-            _buildCoinDisplay(),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: () => AppRoute.push(ProfileScreen()),
+              child: Container(
+                padding: const EdgeInsets.all(7),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                ),
+                child: Icon(
+                  CupertinoIcons.person_circle,
+                  color: AppColors.onBackground,
+                  size: 18,
+                ),
+              ),
+            ),
           ],
         ),
       ],
@@ -180,13 +221,38 @@ class _HomeScreenState extends State<HomeScreen> {
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: AppColors.onBackground.withOpacity(0.8),
-          ),
+        child: Row(
+          children: [
+            Text(
+              title,
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: AppColors.onBackground.withOpacity(0.8),
+              ),
+            ),
+            const Spacer(),
+            CupertinoButton(
+              padding: EdgeInsets.zero,
+              onPressed: () => setState(() => isGridView = !isGridView),
+
+              child: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.2),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                ),
+                child: Icon(
+                  isGridView
+                      ? CupertinoIcons.list_bullet
+                      : CupertinoIcons.square_grid_2x2,
+                  color: AppColors.onBackground,
+                  size: 20,
+                ),
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -293,51 +359,4 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget _buildCoinDisplay() {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: AppColors.primaryPurple.withOpacity(0.1),
-            borderRadius: BorderRadius.circular(20),
-            border: Border.all(color: Colors.white.withOpacity(0.3), width: 1),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.amber.withOpacity(0.4),
-                      blurRadius: 8,
-                      spreadRadius: 1,
-                    ),
-                  ],
-                ),
-                child: const Icon(
-                  Icons.monetization_on_rounded,
-                  color: Colors.amber,
-                  size: 18,
-                ),
-              ),
-              const SizedBox(width: 8),
-              const Text(
-                "1,250",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                  color: AppColors.onBackground,
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 }

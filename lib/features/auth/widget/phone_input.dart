@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../../../core/constants/app_colors.dart';
 import 'auth_button.dart';
-import 'base_auth_widget.dart';
+import 'base_layout.dart';
 import 'custom_text_field.dart';
 
 class PhoneInputScreen extends StatelessWidget {
@@ -16,17 +14,15 @@ class PhoneInputScreen extends StatelessWidget {
       subtitle: "Enter your mobile number to get started",
       child: Column(
         children: [
-          customTextField(
+          CustomTextField(
             hint: "Mobile Number",
             icon: Icons.phone_android_rounded,
             keyboardType: TextInputType.phone,
           ),
           const SizedBox(height: 30),
-          gradientButton(text: "Send OTP", onTap: onNext),
+          GradientButton(text: "Send OTP", onPressed: onNext),
         ],
       ),
     );
   }
-
-
 }

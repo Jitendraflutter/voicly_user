@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen>
 
     // Redirect after 3 seconds
     Future.delayed(Duration(seconds: 3), () {
-      AppRoute.pushReplacement(AuthFlow());
+      AppRoute.pushReplacement(AuthScreen());
     });
   }
 
