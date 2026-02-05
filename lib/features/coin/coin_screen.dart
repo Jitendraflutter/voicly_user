@@ -2,9 +2,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
-
 import '../../core/constants/app_colors.dart';
-// import 'your_path/app_colors.dart';
 
 class CoinScreen extends StatefulWidget {
   const CoinScreen({super.key});
@@ -331,7 +329,7 @@ class _CoinScreenState extends State<CoinScreen> {
         decoration: BoxDecoration(
           gradient: selectedPackageIndex == null
               ? null
-              :AppColors.logoGradient,
+              : AppColors.logoGradient,
           color: selectedPackageIndex == null ? Colors.white10 : null,
           borderRadius: BorderRadius.circular(18),
           boxShadow: [

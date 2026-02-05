@@ -22,7 +22,6 @@ class PhoneInputScreen extends StatelessWidget {
         children: [
           _buildSocialButton(
             text: AppStrings.signInWithGoogle,
-            // Using a colorful Google icon asset is recommended for production
             icon: Icon(Icons.g_mobiledata_rounded, color: Colors.red, size: 28),
             onPressed: () async {
               try {

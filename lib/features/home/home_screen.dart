@@ -358,7 +358,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _iconAction(
                       CupertinoIcons.phone_arrow_up_right,
                       AppColors.purpleDark,
-                      () => debugPrint("Chat Pressed"),
+                      () {},
                     ),
                     const SizedBox(width: 4),
                     _iconAction(
