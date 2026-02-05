@@ -1,4 +1,4 @@
-package com.voicly.app.voicly
+package com.voicly.app
 
 import io.flutter.embedding.android.FlutterActivity
 

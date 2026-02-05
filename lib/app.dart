@@ -1,17 +1,19 @@
-
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:voicly/core/route/app_route.dart';
-import 'package:voicly/features/splash/splash_screen.dart';
+
+import 'core/route/routes.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       navigatorKey: AppRoute.navigatorKey,
-      home: SplashScreen()
+      initialRoute: AppRoutes.getInitialRoute(),
+      getPages: AppPages.pages,
     );
   }
 }
