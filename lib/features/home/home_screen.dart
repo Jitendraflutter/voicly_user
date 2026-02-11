@@ -236,11 +236,9 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              _iconAction(
-                CupertinoIcons.phone_fill,
-                AppColors.purpleDark,
-                () {},
-              ),
+              _iconAction(CupertinoIcons.phone_fill, AppColors.purpleDark, () {
+                _controller.startCall(caller);
+              }),
               const SizedBox(width: 10),
               _iconAction(
                 CupertinoIcons.videocam_fill,

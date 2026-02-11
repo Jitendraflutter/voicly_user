@@ -10,6 +10,7 @@ class CallerModel {
   final List<String>? interests;
   final DateTime? dob;
   final String? bio;
+  final String? fcmToken;
   final bool? isOnline;
 
   CallerModel({
@@ -21,6 +22,7 @@ class CallerModel {
     this.dob,
     this.interests,
     this.mobileNo,
+    this.fcmToken,
     this.bio = "",
     this.isOnline = false,
   });
@@ -34,6 +36,7 @@ class CallerModel {
       profilePic: data['profilePic'] ?? '',
       gender: data['gender'],
       mobileNo: data['mobileNo'],
+      fcmToken: data['fcmToken'],
       isOnline: data['isOnline'] ?? false,
       interests: data['interests'] != null
           ? List<String>.from(data['interests'])
