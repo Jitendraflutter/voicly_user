@@ -339,7 +339,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     _iconAction(
                       CupertinoIcons.phone_fill,
                       AppColors.purpleDark,
-                      () {}, // Trigger Cloud Function
+                      () {
+                        _controller.startCall(caller);
+                      }, // Trigger Cloud Function
                     ),
                     const SizedBox(width: 8),
                     _iconAction(

@@ -52,6 +52,7 @@ class CallController extends GetxController {
         appId:
             "26b2a0b4c5fa4595b6c1285f34b4a4eb", // Best practice: Get from your CloudFunctionService
         channelProfile: ChannelProfileType.channelProfileCommunication,
+        audioScenario: AudioScenarioType.audioScenarioMeeting,
       ),
     );
 

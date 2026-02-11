@@ -8,7 +8,6 @@ import 'package:voicly/core/constants/app_assets.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/core/utils/local_storage.dart';
 import 'package:voicly/networks/auth_services.dart';
-import 'package:voicly/networks/make_call.dart';
 import 'package:voicly/widget/glass_container.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
@@ -86,14 +85,6 @@ class ProfileScreen extends StatelessWidget {
                               Get.toNamed(AppRoutes.UPDATE_PROFILE),
                         ),
 
-                        _profileTile(
-                          CupertinoIcons.person_crop_circle_badge_checkmark,
-                          "Make Call",
-                          "call test",
-                          onPressed: () {
-                            makeTestCall();
-                          },
-                        ),
                         _profileTile(
                           CupertinoIcons.shield_fill,
                           "Account Settings",

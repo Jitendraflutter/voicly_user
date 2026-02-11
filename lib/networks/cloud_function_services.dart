@@ -11,6 +11,7 @@ class CloudFunctionService extends GetxService {
     required String receiverToken,
     required String receiverUid,
     required String callerName,
+    required String callerAvatar,
     required String channelId,
   }) async {
     try {
@@ -20,6 +21,7 @@ class CloudFunctionService extends GetxService {
             'token': receiverToken,
             'receiverUid': receiverUid,
             'callerName': callerName,
+            'callerAvatar': callerAvatar,
             'channelId': channelId,
             'uuid': DateTime.now().millisecondsSinceEpoch.toString(),
           });

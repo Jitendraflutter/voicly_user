@@ -11,7 +11,7 @@ class HomeController extends GetxController {
 
   // Observable list of callers
   RxList<CallerModel> callers = <CallerModel>[].obs;
-  RxBool isGridView = true.obs;
+  RxBool isGridView = false.obs;
   final cloudService = Get.put(CloudFunctionService());
   final auth = Get.find<AuthService>();
   void startCall(CallerModel user) async {
@@ -21,6 +21,7 @@ class HomeController extends GetxController {
     final result = await cloudService.initiateCall(
       receiverToken: user.fcmToken ?? "",
       receiverUid: user.uid,
+      callerAvatar: auth.currentUser.value?.profilePic ?? "",
       callerName: auth.currentUser.value?.fullName ?? "",
       channelId: channelId,
     );
@@ -32,6 +33,7 @@ class HomeController extends GetxController {
           'rtc_token': result['rtcToken'],
           'channel_id': channelId,
           'caller_name': user.fullName,
+          'caller_avatar': user.profilePic,
           'is_receiver': false,
         },
       );
