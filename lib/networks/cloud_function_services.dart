@@ -32,17 +32,20 @@ class CloudFunctionService extends GetxService {
     }
   }
 
-  /// 2. Update Call Status (ringing, active, ended, cancelled)
-  Future<bool> updateCallStatus(String channelId, String status) async {
+  Future<void> updateCallStatus({
+    required String channelId,
+    required String status,
+    String? otherUserToken,
+  }) async {
     try {
       await _functions.httpsCallable('updateCallStatus').call({
         'channelId': channelId,
         'status': status,
+        'otherUserToken': otherUserToken,
       });
-      return true;
+      print("✅ Status updated to: $status");
     } catch (e) {
-      _handleError("updateCallStatus", e);
-      return false;
+      print("❌ Error updating status: $e");
     }
   }
 

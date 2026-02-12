@@ -34,6 +34,7 @@ class HomeController extends GetxController {
           'channel_id': channelId,
           'caller_name': user.fullName,
           'caller_avatar': user.profilePic,
+          'receiver_token': user.fcmToken,
           'is_receiver': false,
         },
       );
