@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/caller_controller.dart';
 
+import '../../networks/cloud_function_services.dart';
+
 class CallView extends GetView<CallController> {
   const CallView({super.key});
 
@@ -68,7 +70,14 @@ class CallView extends GetView<CallController> {
                     _iconButton(
                       icon: Icons.call_end,
                       color: Colors.red,
-                      onTap: controller.endCall,
+                      onTap: () {
+                        Get.find<CloudFunctionService>().updateCallStatus(
+                          channelId: controller.channelId,
+                          status: "end_call_by_user",
+                          otherUserToken: controller.receiverToken,
+                        );
+                        controller.endCall();
+                      },
                       size: 70,
                     ),
                     _iconButton(

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -19,6 +20,7 @@ class CallController extends GetxController {
   final String channelId = Get.arguments['channel_id'];
   final String rtcToken = Get.arguments['rtc_token'];
   final String callerName = Get.arguments['caller_name'];
+  final String receiverToken = Get.arguments['receiver_token'] ?? "";
   final bool isReceiver = Get.arguments['is_receiver'] ?? false;
 
   @override
@@ -26,6 +28,7 @@ class CallController extends GetxController {
     super.onInit();
     _startRingtone();
     _initAgora();
+    _listenToCallStatus();
   }
 
   void _startRingtone() {
@@ -103,6 +106,25 @@ class CallController extends GetxController {
   void toggleMute() {
     isMuted.value = !isMuted.value;
     _engine.muteLocalAudioStream(isMuted.value);
+  }
+
+  void _listenToCallStatus() {
+    FirebaseFirestore.instance
+        .collection('calls')
+        .doc(channelId)
+        .snapshots()
+        .listen((snapshot) {
+          if (snapshot.exists) {
+            String status = snapshot.data()?['status'] ?? "";
+            if (status == "end_call") {
+              FlutterRingtonePlayer().stop();
+              callStatus.value = "Call Declined";
+              Future.delayed(const Duration(milliseconds: 200), () {
+                endCall();
+              });
+            }
+          }
+        });
   }
 
   void endCall() async {
