@@ -8,7 +8,7 @@ class UserModel {
   final String? gender;
   final DateTime? dob;
   final String? bio;
-  final int points;
+  final num points;
   final bool isActive;
 
   UserModel({

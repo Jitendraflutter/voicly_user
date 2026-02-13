@@ -22,8 +22,8 @@ class LocalStorage {
   static void setUid(String val) => _storage.write(_uid, val);
   static String getUid() => _storage.read(_uid) ?? "";
 
-  static void setPoints(int val) => _storage.write(_points, val);
-  static int getPoints() => _storage.read(_points) ?? 0;
+  static void setPoints(num val) => _storage.write(_points, val);
+  static num getPoints() => _storage.read(_points) ?? 0;
 
   //Write And read List
   /// Save list (String / int / Map)

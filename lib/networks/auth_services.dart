@@ -8,12 +8,10 @@ import '../model/user_model.dart';
 class AuthService extends GetxService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // Dependency Injection: Finding the repository service
   final UserRepository _userRepo = Get.find<UserRepository>();
 
   Rxn<UserModel> currentUser = Rxn<UserModel>();
 
-  // Initialize the auth listener
   Future<AuthService> init() async {
     _auth.authStateChanges().listen((User? user) {
       if (user != null) {
@@ -26,7 +24,7 @@ class AuthService extends GetxService {
   }
 
   // Simple getter for current points
-  int get currentPoints => currentUser.value?.points ?? 0;
+  num get currentPoints => currentUser.value?.points ?? 0;
 
   // Method to manage points via the service
   Future<void> updatePoints(int newPoints) async {

@@ -32,6 +32,41 @@ class CloudFunctionService extends GetxService {
     }
   }
 
+  /// Returns [true] if successful, [false] if low balance/error.
+  Future<bool> deductCallPoints({
+    required String channelId,
+    required String callerUid, // The User (Payer)
+    required String receiverUid, // The Caller (Earner)
+    required String callerName,
+    required String callerAvatar,
+    required String receiverName,
+    required String receiverAvatar,
+  }) async {
+    try {
+      final response = await _functions.httpsCallable('deductCallPoints').call({
+        'channelId': channelId,
+        'callerUid': callerUid,
+        'receiverUid': receiverUid,
+        'callerName': callerName,
+        'callerAvatar': callerAvatar,
+        'receiverName': receiverName,
+        'receiverAvatar': receiverAvatar,
+      });
+
+      // Check the 'success' field from your Node.js response
+      if (response.data['success'] == true) {
+        print("✅ Deduction Successful: 9 Points");
+        return true;
+      } else {
+        print("⚠️ Deduction Failed: ${response.data['message']}");
+        return false;
+      }
+    } catch (e) {
+      print("❌ Deduction Error: $e");
+      return false; // Fail safe
+    }
+  }
+
   Future<void> updateCallStatus({
     required String channelId,
     required String status,
