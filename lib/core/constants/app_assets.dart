@@ -10,6 +10,8 @@ class AppAssets {
 
   static const String vp = 'assets/images/vp.webp';
   static const String v = 'assets/images/v.webp';
+  static const String animation1 = 'assets/lottie/Confetti.json';
+  static const String animation2 = 'assets/lottie/Stars.json';
 
   // static final String backgroundWrapper = backgroundImg[0];
 
