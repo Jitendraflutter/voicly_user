@@ -15,4 +15,7 @@ class AppStrings {
   static const String community = "$domain/community";
   static const String voiclyPoints = "$domain/coins";
   static const String accountDeletion = "$domain/delete";
+
+  static const String appStatus = 'App under construction..';
+  static const String voiclyBio = 'Voicly is my favorite place';
 }
