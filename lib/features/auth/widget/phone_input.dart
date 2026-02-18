@@ -73,7 +73,7 @@ class PhoneInputScreen extends StatelessWidget {
                     text: "Terms of Service",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primaryPeach,
+                      color: AppColors.primary,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () =>
@@ -84,7 +84,7 @@ class PhoneInputScreen extends StatelessWidget {
                     text: "Privacy Policy",
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.primaryPeach,
+                      color: AppColors.primary,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () =>
@@ -123,7 +123,7 @@ class PhoneInputScreen extends StatelessWidget {
           width: double.infinity,
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 20),
           decoration: BoxDecoration(
-            gradient: AppColors.logoGradient,
+            gradient: AppColors.primaryButtonGradient,
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
@@ -142,8 +142,7 @@ class PhoneInputScreen extends StatelessWidget {
                 text,
                 style: const TextStyle(
                   fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+                  color: AppColors.onBackground,
                   letterSpacing: 0.5,
                 ),
               ),
