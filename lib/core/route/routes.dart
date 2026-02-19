@@ -65,8 +65,8 @@ class AppPages {
     GetPage(name: AppRoutes.UPDATE_PROFILE, page: () => ProfileUpdateScreen()),
     GetPage(
       name: AppRoutes.CALL_SCREEN,
-      page: () => CallView(),
-      binding: BindingsBuilder.put(() => CallController(), permanent: true),
+      page: () => const CallView(),
+      binding: CallBinding(),
     ),
 
     GetPage(name: AppRoutes.HISTORY, page: () => CallHistoryScreen()),

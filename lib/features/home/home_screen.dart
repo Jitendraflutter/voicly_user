@@ -189,12 +189,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       : AppAssets.userUrl,
                   isOnline: caller.isOnline ?? false,
                   onTap: () => Get.bottomSheet(
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.vertical(
-                        top: Radius.circular(24),
-                      ),
+                    FractionallySizedBox(
+                      heightFactor: 3 / 4,
+                      child: ProfileSheet(callerModel: caller),
                     ),
-                    ProfileSheet(callerModel: caller),
                   ),
                 ),
                 const SizedBox(width: 15),

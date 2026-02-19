@@ -1,24 +1,33 @@
 import 'dart:async';
-
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/route/routes.dart';
-
 import 'caller_overlay_controller.dart';
 
 class CallController extends GetxController {
+  // ───── OBS ─────
   var callStatus = "Dialing...".obs;
-  var callDuration = 0.obs; // In seconds
+  var callDuration = 0.obs;
   var isMuted = false.obs;
   var isSpeaker = false.obs;
-  late RtcEngine _engine;
   var myVolume = 0.obs;
   var remoteVolume = 0.obs;
+
+  // ───── INTERNAL ─────
+  late RtcEngine _engine;
   int agoraRemoteUserId = 0;
   Timer? _timer;
+  StreamSubscription? _callStatusSub;
+  bool _engineInitialized = false;
+  bool _isEndingCall = false;
+
+  static const _channel = MethodChannel('com.voicly.app/call_service');
+
+  // ───── ARGUMENTS ─────
   final CallOverlayController overlayController =
       Get.find<CallOverlayController>();
   final String channelId = Get.arguments['channel_id'];
@@ -29,17 +38,49 @@ class CallController extends GetxController {
   final String receiverToken = Get.arguments['receiver_token'] ?? "";
   final bool isReceiver = Get.arguments['is_receiver'] ?? false;
 
+  // ─────────────────────────────────────────────────────────────
+
   @override
   void onInit() {
     super.onInit();
     _startRingtone();
-    _initAgora();
-    _listenToCallStatus();
   }
 
+  @override
+  void onReady() {
+    super.onReady();
+    _resetCallDocThenStart();
+  }
+
+  @override
+  void onClose() {
+    _timer?.cancel();
+    _callStatusSub?.cancel();
+
+    if (_engineInitialized) {
+      _engine.leaveChannel();
+      _engine.release();
+      _engineInitialized = false;
+    }
+    super.onClose();
+  }
+
+  // ───── RESET FIRESTORE BEFORE LISTEN ─────
+  Future<void> _resetCallDocThenStart() async {
+    try {
+      await FirebaseFirestore.instance.collection('calls').doc(channelId).set({
+        'status': 'calling',
+      }, SetOptions(merge: true));
+    } catch (e) {
+      print("Firestore reset error: $e");
+    }
+
+    _listenToCallStatus();
+    await _initAgora();
+  }
+
+  // ───── RINGTONE ─────
   void _startRingtone() {
-    // If you are calling someone, play the 'dialing' tone
-    // If you are receiving, the system already handled the 'ringing' tone
     if (!isReceiver) {
       FlutterRingtonePlayer().play(
         android: AndroidSounds.ringtone,
@@ -50,75 +91,116 @@ class CallController extends GetxController {
     }
   }
 
+  // ───── AGORA INIT ─────
   Future<void> _initAgora() async {
-    // 1. Request Permissions
+    try {
+      _engine = createAgoraRtcEngine();
 
-    // 2. Initialize Engine
-    _engine = createAgoraRtcEngine();
-    await _engine.initialize(
-      const RtcEngineContext(
-        appId:
-            "26b2a0b4c5fa4595b6c1285f34b4a4eb", // Best practice: Get from your CloudFunctionService
-        channelProfile: ChannelProfileType.channelProfileCommunication,
-        audioScenario: AudioScenarioType.audioScenarioMeeting,
-      ),
-    );
+      await _engine.initialize(
+        const RtcEngineContext(
+          appId: "26b2a0b4c5fa4595b6c1285f34b4a4eb",
+          channelProfile: ChannelProfileType.channelProfileCommunication,
+          audioScenario: AudioScenarioType.audioScenarioMeeting,
+        ),
+      );
 
-    // 3. Set Event Handlers
-    _engine.registerEventHandler(
-      RtcEngineEventHandler(
-        onJoinChannelSuccess: (RtcConnection connection, int elapsed) {
-          print("Successfully joined channel: ${connection.channelId}");
-        },
-        onUserJoined: (RtcConnection connection, int remoteUid, int elapsed) {
-          FlutterCallkitIncoming.setCallConnected(channelId);
-          agoraRemoteUserId = remoteUid;
-          FlutterRingtonePlayer().stop(); // Stop the dialing tone
-          callStatus.value = "Connected";
-          _startTimer();
-        },
-        onAudioVolumeIndication:
-            (connection, speakers, speakerNumber, totalVolume) {
-              for (var speaker in speakers) {
-                if (speaker.uid == 0) {
-                  myVolume.value = speaker.volume ?? 0;
-                } else if (speaker.uid == agoraRemoteUserId) {
-                  remoteVolume.value = speaker.volume ?? 0;
+      await _engine.enableAudio();
+
+      await _engine.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
+
+      await _engine.setAudioProfile(
+        profile: AudioProfileType.audioProfileDefault,
+        scenario: AudioScenarioType.audioScenarioMeeting,
+      );
+
+      await _engine.enableAudioVolumeIndication(
+        interval: 500,
+        smooth: 3,
+        reportVad: true,
+      );
+
+      _engine.registerEventHandler(
+        RtcEngineEventHandler(
+          onJoinChannelSuccess: (connection, elapsed) {
+            print("Joined Agora: ${connection.channelId}");
+          },
+
+          onUserJoined: (connection, remoteUid, elapsed) async {
+            FlutterCallkitIncoming.setCallConnected(channelId);
+            agoraRemoteUserId = remoteUid;
+            FlutterRingtonePlayer().stop();
+            callStatus.value = "Connected";
+            _startTimer();
+
+            // 🔥 START BACKGROUND SERVICE
+            await _channel.invokeMethod('startCallService');
+          },
+
+          onConnectionStateChanged: (connection, state, reason) {
+            print("Agora state: $state reason: $reason");
+
+            if (state == ConnectionStateType.connectionStateDisconnected &&
+                reason !=
+                    ConnectionChangedReasonType.connectionChangedLeaveChannel &&
+                callStatus.value == "Connected") {
+              endCall();
+            }
+          },
+
+          onAudioVolumeIndication:
+              (connection, speakers, speakerNumber, totalVolume) {
+                for (var speaker in speakers) {
+                  if (speaker.uid == 0) {
+                    myVolume.value = speaker.volume ?? 0;
+                  } else if (speaker.uid == agoraRemoteUserId) {
+                    remoteVolume.value = speaker.volume ?? 0;
+                  }
                 }
-              }
-            },
-        onUserOffline:
-            (
-              RtcConnection connection,
-              int remoteUid,
-              UserOfflineReasonType reason,
-            ) {
-              endCall(); // Other person hung up
-            },
-      ),
-    );
+              },
 
-    // 4. Join Channel
-    await _engine.joinChannel(
-      token: rtcToken,
-      channelId: channelId,
-      uid: 0,
-      options: const ChannelMediaOptions(),
-    );
+          onUserOffline: (connection, remoteUid, reason) {
+            endCall();
+          },
+
+          onError: (err, msg) {
+            print("Agora error: $err — $msg");
+          },
+        ),
+      );
+
+      await _engine.joinChannel(
+        token: rtcToken,
+        channelId: channelId,
+        uid: 0,
+        options: const ChannelMediaOptions(
+          clientRoleType: ClientRoleType.clientRoleBroadcaster,
+          channelProfile: ChannelProfileType.channelProfileCommunication,
+          publishMicrophoneTrack: true,
+          autoSubscribeAudio: true,
+        ),
+      );
+
+      _engineInitialized = true;
+    } catch (e) {
+      print("Agora init error: $e");
+      endCall();
+    }
   }
 
+  // ───── TIMER ─────
   void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+    _timer = Timer.periodic(const Duration(seconds: 1), (_) {
       callDuration.value++;
     });
   }
 
   String get formattedTime {
-    int minutes = callDuration.value ~/ 60;
-    int seconds = callDuration.value % 60;
-    return '${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}';
+    final m = callDuration.value ~/ 60;
+    final s = callDuration.value % 60;
+    return '${m.toString().padLeft(2, '0')}:${s.toString().padLeft(2, '0')}';
   }
 
+  // ───── CONTROLS ─────
   void toggleMute() {
     isMuted.value = !isMuted.value;
     _engine.muteLocalAudioStream(isMuted.value);
@@ -129,39 +211,68 @@ class CallController extends GetxController {
     _engine.setEnableSpeakerphone(isSpeaker.value);
   }
 
+  // ───── FIRESTORE LISTENER ─────
   void _listenToCallStatus() {
-    FirebaseFirestore.instance
+    _callStatusSub = FirebaseFirestore.instance
         .collection('calls')
         .doc(channelId)
         .snapshots()
         .listen((snapshot) {
-          if (snapshot.exists) {
-            String status = snapshot.data()?['status'] ?? "";
-            if (status == "end_call") {
-              FlutterRingtonePlayer().stop();
-              callStatus.value = "Call Declined";
-              Future.delayed(const Duration(milliseconds: 200), () {
-                endCall();
-              });
-            }
+          if (!snapshot.exists) return;
+          if (_isEndingCall) return;
+
+          final status = snapshot.data()?['status'] ?? "";
+          if (status == "end_call") {
+            FlutterRingtonePlayer().stop();
+            callStatus.value = "Call Ended";
+            Future.delayed(const Duration(milliseconds: 300), endCall);
           }
         });
   }
 
+  // ───── END CALL ─────
   void endCall() async {
+    if (_isEndingCall) return;
+    _isEndingCall = true;
+
     overlayController.isMinimized.value = false;
     _timer?.cancel();
+    _callStatusSub?.cancel();
     FlutterRingtonePlayer().stop();
+
+    if (_engineInitialized) {
+      await _engine.leaveChannel();
+      await _engine.release();
+      _engineInitialized = false;
+    }
+
+    // 🔥 STOP BACKGROUND SERVICE
+    await _channel.invokeMethod('stopCallService');
+
     await FlutterCallkitIncoming.endAllCalls();
+
+    try {
+      final doc = await FirebaseFirestore.instance
+          .collection('calls')
+          .doc(channelId)
+          .get();
+
+      if (doc.data()?['status'] != 'end_call') {
+        await FirebaseFirestore.instance
+            .collection('calls')
+            .doc(channelId)
+            .update({'status': 'end_call'});
+      }
+    } catch (_) {}
+
     Get.delete<CallController>(force: true);
+
     if (Get.currentRoute == AppRoutes.CALL_SCREEN) {
       Get.back(result: "end_call");
     }
-    await _engine.leaveChannel();
-    await _engine.release();
-    Get.back();
   }
 
+  // ───── RETURN FROM OVERLAY ─────
   void returnToCallScreen() {
     overlayController.isMinimized.value = false;
     Get.toNamed(
@@ -174,12 +285,5 @@ class CallController extends GetxController {
         'caller_avatar': callerAvatar,
       },
     );
-  }
-
-  @override
-  void onClose() {
-    _timer?.cancel();
-    _engine.release();
-    super.onClose();
   }
 }

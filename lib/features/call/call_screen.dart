@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/caller_controller.dart';
@@ -6,8 +7,10 @@ import 'package:voicly/features/call/pulsing_avatar.dart';
 
 import '../../networks/cloud_function_services.dart';
 
-class CallView extends GetView<CallController> {
+class CallView extends StatelessWidget {
   const CallView({super.key});
+
+  CallController get controller => Get.find<CallController>();
 
   @override
   Widget build(BuildContext context) {
@@ -75,18 +78,24 @@ class CallView extends GetView<CallController> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      // Mute Toggle
                       Obx(
                         () => _iconButton(
                           icon: controller.isMuted.value
                               ? Icons.mic_off
                               : Icons.mic,
-                          color: Colors.white24,
+                          isActive: controller.isMuted.value,
+                          activeColor: Colors.white, // Highlights when muted
                           onTap: controller.toggleMute,
                         ),
                       ),
+
+                      // End Call (Static visual, no toggle state needed)
                       _iconButton(
                         icon: Icons.call_end,
-                        color: Colors.red,
+                        isActive: true,
+                        activeColor: Colors.redAccent,
+                        size: 72, // Larger centerpiece
                         onTap: () {
                           Get.find<CloudFunctionService>().updateCallStatus(
                             channelId: controller.channelId,
@@ -95,17 +104,19 @@ class CallView extends GetView<CallController> {
                           );
                           controller.endCall();
                         },
-                        size: 70,
                       ),
-                      Obx(() {
-                        return _iconButton(
-                          icon: Icons.volume_up,
-                          color: controller.isSpeaker.isTrue
-                              ? Colors.white
-                              : Colors.white24,
+
+                      // Speaker Toggle
+                      Obx(
+                        () => _iconButton(
+                          icon: controller.isSpeaker.value
+                              ? Icons.volume_up
+                              : Icons.volume_down,
+                          isActive: controller.isSpeaker.value,
+                          activeColor: Colors.white,
                           onTap: controller.toggleSpeaker,
-                        );
-                      }),
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -119,18 +130,38 @@ class CallView extends GetView<CallController> {
 
   Widget _iconButton({
     required IconData icon,
-    required Color color,
-    Color? iconColor = Colors.white,
+    required bool isActive, // New: Tracks state
     required VoidCallback onTap,
+    Color activeColor = Colors.white,
+    Color inactiveColor = Colors.white24,
     double size = 56,
   }) {
     return GestureDetector(
       onTap: onTap,
-      child: Container(
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
         height: size,
         width: size,
-        decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-        child: Icon(icon, color: iconColor, size: size * 0.5),
+        decoration: BoxDecoration(
+          // High contrast for active state, subtle for inactive
+          color: isActive ? activeColor : inactiveColor,
+          shape: BoxShape.circle,
+          boxShadow: isActive
+              ? [
+                  BoxShadow(
+                    color: activeColor.withOpacity(0.3),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
+                ]
+              : [],
+        ),
+        child: Icon(
+          icon,
+          // Icon color flips to match background contrast
+          color: isActive ? Colors.black87 : Colors.white,
+          size: size * 0.45,
+        ),
       ),
     );
   }
