@@ -122,8 +122,8 @@ class CallHistoryScreen extends StatelessWidget {
                           const SizedBox(width: 8),
                           CallButton(
                             icon: CupertinoIcons.videocam_fill,
-                            color: AppColors.onPrimary,
-                            onTap: () {},
+                            color: AppColors.onPrimary.withOpacity(0.4),
+                            onTap: null,
                           ),
                         ],
                       ),

@@ -71,14 +71,14 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 30),
 
                     // Section 1: Account
-                    _buildSectionTitle("Account Management"),
+                    _buildSectionTitle("Profile"),
                     const SizedBox(height: 5),
                     GlassContainer(
                       child: Column(
                         children: [
                           _profileTile(
                             CupertinoIcons.person_crop_circle_badge_checkmark,
-                            "Complete Profile",
+                            "Manage Profile",
                             "$completion% Finished",
                             onPressed: () =>
                                 Get.toNamed(AppRoutes.UPDATE_PROFILE),
@@ -104,18 +104,22 @@ class ProfileScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           _profileTile(
-                            CupertinoIcons.bell_fill,
-                            "Notifications",
-                            "Sounds & Alerts",
-                          ),
-
-                          _profileTile(
                             onPressed: () => Get.toNamed(AppRoutes.LANGUAGE),
                             CupertinoIcons.globe,
                             "Language",
                             "App language settings",
                           ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
 
+                    _buildSectionTitle("Legal"),
+                    const SizedBox(height: 5),
+
+                    GlassContainer(
+                      child: Column(
+                        children: [
                           _profileTile(
                             CupertinoIcons.shield_lefthalf_fill,
                             "Privacy Policy",
@@ -163,6 +167,26 @@ class ProfileScreen extends StatelessWidget {
                                 Get.toNamed(AppRoutes.BECOME_CALLER_SCREEN),
                             "Start earning by joining our caller program",
                           ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    _buildSectionTitle("Account"),
+                    const SizedBox(height: 5),
+
+                    GlassContainer(
+                      child: Column(
+                        children: [
+                          _profileTile(
+                            CupertinoIcons.delete,
+                            "Delete Account",
+                            "Permanently remove your account",
+                            isDestructive: true,
+                            onPressed: () {
+                             Get.toNamed(AppRoutes.DELETE_SCREEN);
+                            },
+                          ),
+
                           _profileTile(
                             CupertinoIcons.square_arrow_right,
                             onPressed: () {

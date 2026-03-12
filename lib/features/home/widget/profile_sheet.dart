@@ -115,10 +115,13 @@ class ProfileSheet extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: AppButton(
-            text: 'Video',
-            onPressed: () {},
-            icon: Icons.videocam_rounded,
+          child: Opacity(
+             opacity: 0.6,
+            child: AppButton(
+              text: 'Video',
+              onPressed: null,
+              icon: Icons.videocam_rounded,
+            ),
           ),
         ),
         const SizedBox(width: 10),

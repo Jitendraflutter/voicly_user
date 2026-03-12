@@ -14,6 +14,7 @@ import 'package:voicly/features/splash/splash_screen.dart';
 import 'package:voicly/features/support/support_screen.dart';
 
 import '../../features/caller/become_caller_screen.dart';
+import '../../features/delete/delete_account_screen.dart';
 import '../utils/local_storage.dart';
 import 'binding.dart';
 
@@ -32,6 +33,7 @@ class AppRoutes {
   static const BLOCKED_USER_SCREEN = '/blocked_users_screen';
   static const SUPPORT_SCREEN = '/support_screen';
   static const BECOME_CALLER_SCREEN = '/become_caller_screen';
+  static const DELETE_SCREEN = '/delete_screen';
 
   static String getInitialRoute() {
     final isFirstRun = LocalStorage.getFirstRun();
@@ -79,5 +81,7 @@ class AppPages {
       name: AppRoutes.BECOME_CALLER_SCREEN,
       page: () => BecomeCallerScreen(),
     ),
+
+    GetPage(name: AppRoutes.DELETE_SCREEN, page: () => DeleteAccountScreen()),
   ];
 }

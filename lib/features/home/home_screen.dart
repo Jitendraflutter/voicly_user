@@ -246,8 +246,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     const SizedBox(width: 8),
                     CallButton(
                       icon: CupertinoIcons.videocam_fill,
-                      color: AppColors.onPrimary,
-                      onTap: () {}, // Trigger Agora Video
+                      color: AppColors.onPrimary.withOpacity(0.4), // faded look
+                      onTap: null,
                     ),
                   ],
                 ),
