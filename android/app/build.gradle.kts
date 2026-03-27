@@ -11,6 +11,7 @@ android {
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -32,9 +33,28 @@ android {
         versionName = flutter.versionName
 
     }
-
+    packaging {
+        jniLibs {
+            excludes += setOf(
+                "**/libagora_ai_denoise_extension.so",
+                "**/libagora_ai_echo_cancellation_extension.so",
+                "**/libagora_video_process_extension.so",
+                "**/libagora_segmentation_extension.so",
+                "**/libagora_clear_vision_extension.so",
+                "**/libagora_super_resolution_extension.so",
+                "**/libagora_spatial_audio_extension.so",
+                "**/libagora_audio_beauty_extension.so",
+                "**/libagora_face_detection_extension.so",
+                "**/libagora_content_inspect_extension.so",
+                "**/libagora_screen_capture_extension.so"
+            )
+        }
+    }
     buildTypes {
-        release {
+        getByName("release") {
+            // ADD THIS EXACT LINE:
+            signingConfig = signingConfigs.getByName("debug")
+
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
@@ -42,7 +62,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-
     }
 }
 
@@ -52,13 +71,7 @@ flutter {
 dependencies {
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.8.0"))
-
-
-    // TODO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.4")
     implementation("com.google.firebase:firebase-functions")
-    // TODO: Add the dependencies for Firebase products you want to use
-    // When using the BoM, don't specify versions in Firebase dependencies
 }

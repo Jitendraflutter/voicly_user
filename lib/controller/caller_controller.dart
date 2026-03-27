@@ -32,12 +32,9 @@ class CallController extends GetxController {
   var isCameraOn = false.obs;
   var isFrontCamera =
       true.obs; // Changed to .obs so UI can react when they join!
-
   RtcEngine get engine => _engine;
-
   static const _channel = MethodChannel('com.voicly.app/call_service');
 
-  // ───── ARGUMENTS ─────
   final CallOverlayController overlayController =
       Get.find<CallOverlayController>();
   final String channelId = Get.arguments['channel_id'];
