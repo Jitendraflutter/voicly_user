@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import '../../controller/call_history_controller.dart';
+import '../../controller/home_controller.dart';
 import 'model/call_history_model.dart';
 import 'package:core/core.dart';
 import 'package:voicly/core/constant/app_assets.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
-
-
 
 class CallHistoryScreen extends StatelessWidget {
   const CallHistoryScreen({super.key});
@@ -16,6 +15,7 @@ class CallHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(CallHistoryController());
+    final callController = Get.put(HomeController());
 
     return ScreenWrapper(
       visibleAppBar: true,
@@ -117,13 +117,13 @@ class CallHistoryScreen extends StatelessWidget {
                           CallButton(
                             icon: CupertinoIcons.phone_fill,
                             color: AppColors.onPrimary,
-                            onTap: () {},
+                            // onTap: () => callController.startCall(caller),
                           ),
                           const SizedBox(width: 8),
                           CallButton(
                             icon: CupertinoIcons.videocam_fill,
                             color: AppColors.onPrimary.withOpacity(0.4),
-                            onTap: null,
+                            // onTap: () => callController.startCall(caller, isVideo: true),
                           ),
                         ],
                       ),
