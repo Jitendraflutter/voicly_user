@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/route/routes.dart';
+
 import 'caller_overlay_controller.dart';
 
 class CallController extends GetxController {
@@ -20,11 +22,18 @@ class CallController extends GetxController {
 
   // ───── INTERNAL ─────
   late RtcEngine _engine;
-  int agoraRemoteUserId = 0;
+  RxInt agoraRemoteUserId = 0.obs;
   Timer? _timer;
   StreamSubscription? _callStatusSub;
   bool _engineInitialized = false;
   bool _isEndingCall = false;
+
+  // 🟢 NEW: VIDEO OBS ─────
+  var isCameraOn = false.obs;
+  var isFrontCamera =
+      true.obs; // Changed to .obs so UI can react when they join!
+
+  RtcEngine get engine => _engine;
 
   static const _channel = MethodChannel('com.voicly.app/call_service');
 
@@ -38,7 +47,8 @@ class CallController extends GetxController {
   final String callerAvatar = Get.arguments['caller_avatar'] ?? "";
   final String receiverToken = Get.arguments['receiver_token'] ?? "";
   final bool isReceiver = Get.arguments['is_receiver'] ?? false;
-
+  // 🟢 NEW: Determine Call Type
+  final bool isVideoCall = Get.arguments['is_video'] ?? false;
   // ─────────────────────────────────────────────────────────────
 
   @override
@@ -107,6 +117,13 @@ class CallController extends GetxController {
 
       await _engine.enableAudio();
 
+      // 🟢 NEW: If it's a video call, enable the video module!
+      if (isVideoCall) {
+        await _engine.enableVideo();
+        await _engine.startPreview();
+        isCameraOn.value = true;
+        isSpeaker.value = true; // Video calls usually default to speakerphone
+      }
       await _engine.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
 
       await _engine.setAudioProfile(
@@ -127,8 +144,15 @@ class CallController extends GetxController {
           },
 
           onUserJoined: (connection, remoteUid, elapsed) async {
+            if (isVideoCall) {
+              try {
+                await _engine.setEnableSpeakerphone(true);
+              } catch (e) {
+                debugPrint("Speakerphone sync warning: $e");
+              }
+            }
             FlutterCallkitIncoming.setCallConnected(channelId);
-            agoraRemoteUserId = remoteUid;
+            agoraRemoteUserId.value = remoteUid;
             FlutterRingtonePlayer().stop();
             callStatus.value = "Connected";
             _startTimer();
@@ -160,6 +184,7 @@ class CallController extends GetxController {
               },
 
           onUserOffline: (connection, remoteUid, reason) {
+            agoraRemoteUserId.value = 0;
             endCall();
           },
 
@@ -173,11 +198,13 @@ class CallController extends GetxController {
         token: rtcToken,
         channelId: channelId,
         uid: 0,
-        options: const ChannelMediaOptions(
+        options: ChannelMediaOptions(
           clientRoleType: ClientRoleType.clientRoleBroadcaster,
           channelProfile: ChannelProfileType.channelProfileCommunication,
           publishMicrophoneTrack: true,
           autoSubscribeAudio: true,
+          publishCameraTrack: isVideoCall,
+          autoSubscribeVideo: isVideoCall,
         ),
       );
 
@@ -267,7 +294,12 @@ class CallController extends GetxController {
     } catch (_) {}
 
     Get.delete<CallController>(force: true);
-
+    if (isVideoCall) {
+      if (Get.currentRoute == AppRoutes.VIDEO_CALL_SCREEN) {
+        Get.back(result: "end_call");
+      }
+      return;
+    }
     if (Get.currentRoute == AppRoutes.CALL_SCREEN) {
       Get.back(result: "end_call");
     }
@@ -277,14 +309,26 @@ class CallController extends GetxController {
   void returnToCallScreen() {
     overlayController.isMinimized.value = false;
     Get.toNamed(
-      AppRoutes.CALL_SCREEN,
+      isVideoCall ? AppRoutes.VIDEO_CALL_SCREEN : AppRoutes.CALL_SCREEN,
       arguments: {
         'channel_id': channelId,
         'rtc_token': rtcToken,
         'caller_name': callerName,
         'caller_uid': callerUid,
         'caller_avatar': callerAvatar,
+        'is_video': isVideoCall,
       },
     );
+  }
+
+  // 🟢 NEW: VIDEO CONTROLS ─────
+  void toggleCamera() {
+    isCameraOn.value = !isCameraOn.value;
+    _engine.muteLocalVideoStream(!isCameraOn.value);
+  }
+
+  void switchCamera() {
+    isFrontCamera.value = !isFrontCamera.value;
+    _engine.switchCamera();
   }
 }

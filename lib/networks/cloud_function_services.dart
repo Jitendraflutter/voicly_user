@@ -14,6 +14,7 @@ class CloudFunctionService extends GetxService {
     required String callerName,
     required String callerAvatar,
     required String channelId,
+    required String isVideo,
   }) async {
     try {
       final response = await _functions
@@ -24,11 +25,31 @@ class CloudFunctionService extends GetxService {
             'callerName': callerName,
             'callerAvatar': callerAvatar,
             'channelId': channelId,
+            'isVideo': isVideo,
             'uuid': DateTime.now().millisecondsSinceEpoch.toString(),
           });
       return Map<String, dynamic>.from(response.data);
     } catch (e) {
       _handleError("initiateCall", e);
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>?> createRazorpayOrder({
+    required num amount,
+    required String uid,
+  }) async {
+    try {
+      // 1. Point to your specific Cloud Function
+      final callable = _functions.httpsCallable('createRazorpayOrder');
+
+      // 2. Execute the call with the parameters
+      final response = await callable.call({'amount': amount, 'uid': uid});
+
+      // 3. Safely cast the response data to a Dart Map
+      return Map<String, dynamic>.from(response.data);
+    } catch (e) {
+      print("🚨 Error calling createRazorpayOrder: $e");
       return null;
     }
   }

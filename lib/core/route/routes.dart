@@ -1,15 +1,16 @@
 import 'package:get/get.dart';
 import 'package:voicly/controller/auth/login_controller.dart';
-import 'package:voicly/controller/caller_controller.dart';
 import 'package:voicly/features/auth/auth_screen.dart';
 import 'package:voicly/features/blocked/blocked_user_screen.dart';
 import 'package:voicly/features/call/call_screen.dart';
+import 'package:voicly/features/call/video_call_screen.dart';
 import 'package:voicly/features/coin/coin_screen.dart';
 import 'package:voicly/features/history/call_history_screen.dart';
 import 'package:voicly/features/home/home_screen.dart';
 import 'package:voicly/features/language/language_screen.dart';
 import 'package:voicly/features/profile/profile_screen.dart';
 import 'package:voicly/features/profile/profile_update_screen.dart';
+import 'package:voicly/features/profile/transaction_history.dart';
 import 'package:voicly/features/splash/splash_screen.dart';
 import 'package:voicly/features/support/support_screen.dart';
 
@@ -28,8 +29,10 @@ class AppRoutes {
   static const LANGUAGE = '/language';
   static const HOME = '/home';
   static const CALL_SCREEN = '/call_screen';
+  static const VIDEO_CALL_SCREEN = '/video_call_screen';
   static const UPDATE_PROFILE = '/update_profile';
   static const HISTORY = '/history_screen';
+  static const TRANSACTION = '/transaction';
   static const BLOCKED_USER_SCREEN = '/blocked_users_screen';
   static const SUPPORT_SCREEN = '/support_screen';
   static const BECOME_CALLER_SCREEN = '/become_caller_screen';
@@ -66,8 +69,17 @@ class AppPages {
     GetPage(name: AppRoutes.LANGUAGE, page: () => LanguageSelectionScreen()),
     GetPage(name: AppRoutes.UPDATE_PROFILE, page: () => ProfileUpdateScreen()),
     GetPage(
+      name: AppRoutes.TRANSACTION,
+      page: () => TransactionHistoryScreen(),
+    ),
+    GetPage(
       name: AppRoutes.CALL_SCREEN,
       page: () => const CallView(),
+      binding: CallBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.VIDEO_CALL_SCREEN,
+      page: () => const VideoCallScreen(),
       binding: CallBinding(),
     ),
 
