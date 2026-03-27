@@ -16,7 +16,6 @@ void main() async {
   ]);
   await Firebase.initializeApp();
   await FirebaseAppCheck.instance.activate(
-    // Set androidProvider to `AndroidProvider.debug`
     providerAndroid: AndroidDebugProvider(),
   );
   await GetStorage.init();

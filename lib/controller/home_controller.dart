@@ -21,7 +21,7 @@ class HomeController extends GetxController {
   RxList<CallerModel> callers = <CallerModel>[].obs;
   final cloudService = Get.put(CloudFunctionService());
   final auth = Get.find<AuthService>();
-  void startCall(CallerModel user) async {
+  void startCall(CallerModel user, {bool? isVideo = false}) async {
     num currentPoints = auth.currentUser.value?.points ?? 0;
 
     if (currentPoints < 5) {
@@ -29,7 +29,7 @@ class HomeController extends GetxController {
       return;
     }
 
-    bool allowed = await _handlePermission();
+    bool allowed = await _handlePermission(isVideo!);
     if (!allowed) return;
 
     final uuid = Uuid();
@@ -41,6 +41,7 @@ class HomeController extends GetxController {
       callerAvatar: auth.currentUser.value?.profilePic ?? "",
       callerName: auth.currentUser.value?.fullName ?? "",
       channelId: channelId,
+      isVideo: isVideo.toString(),
     );
     Get.context?.loaderOverlay.hide();
 
@@ -73,7 +74,7 @@ class HomeController extends GetxController {
 
     if (result != null && result['success']) {
       Get.toNamed(
-        AppRoutes.CALL_SCREEN,
+        isVideo! ? AppRoutes.VIDEO_CALL_SCREEN : AppRoutes.CALL_SCREEN,
         arguments: {
           'rtc_token': result['rtcToken'],
           'channel_id': channelId,
@@ -82,29 +83,54 @@ class HomeController extends GetxController {
           'caller_avatar': user.profilePic,
           'receiver_token': user.fcmToken,
           'is_receiver': false,
+          'is_video': isVideo,
         },
       );
     }
   }
 
-  Future<bool> _handlePermission() async {
-    final status = await [Permission.microphone].request();
-    final micStatus = status[Permission.microphone];
+  Future<bool> _handlePermission(bool isVideoCall) async {
+    // 1. Dynamically build the permission list
+    List<Permission> permissionsToRequest = [Permission.microphone];
 
-    if (micStatus == null || !micStatus.isGranted) {
-      if (micStatus?.isPermanentlyDenied ?? false) {
+    if (isVideoCall) {
+      permissionsToRequest.add(Permission.camera);
+    }
+
+    // 2. Request all required permissions at the same time
+    final status = await permissionsToRequest.request();
+
+    // 3. Extract the results
+    final micStatus = status[Permission.microphone];
+    final cameraStatus = isVideoCall
+        ? status[Permission.camera]
+        : PermissionStatus.granted;
+
+    // 4. Check if anything was denied
+    bool micDenied = micStatus == null || !micStatus.isGranted;
+    bool cameraDenied =
+        isVideoCall && (cameraStatus == null || !cameraStatus.isGranted);
+
+    if (micDenied || cameraDenied) {
+      // Handle permanent denial (user clicked "Don't ask again")
+      if ((micStatus?.isPermanentlyDenied ?? false) ||
+          (cameraStatus?.isPermanentlyDenied ?? false)) {
         Get.snackbar(
-          "Permission",
-          "Mic permanently denied. Enable from settings",
+          "Permission Denied",
+          "Microphone ${isVideoCall ? 'and Camera ' : ''}permanently denied. Please enable them from settings.",
         );
         await openAppSettings();
       } else {
-        Get.snackbar("Permission", "Mic permission required for call");
+        // Handle standard denial
+        Get.snackbar(
+          "Permission Required",
+          "Microphone ${isVideoCall ? 'and Camera ' : ''}permission required for this call.",
+        );
       }
       return false;
     }
 
-    return true;
+    return true; // All requested permissions were granted!
   }
 
   @override

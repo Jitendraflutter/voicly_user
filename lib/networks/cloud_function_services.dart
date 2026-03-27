@@ -14,6 +14,7 @@ class CloudFunctionService extends GetxService {
     required String callerName,
     required String callerAvatar,
     required String channelId,
+    required String isVideo,
   }) async {
     try {
       final response = await _functions
@@ -24,6 +25,7 @@ class CloudFunctionService extends GetxService {
             'callerName': callerName,
             'callerAvatar': callerAvatar,
             'channelId': channelId,
+            'isVideo': isVideo,
             'uuid': DateTime.now().millisecondsSinceEpoch.toString(),
           });
       return Map<String, dynamic>.from(response.data);

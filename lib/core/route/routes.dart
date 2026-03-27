@@ -3,6 +3,7 @@ import 'package:voicly/controller/auth/login_controller.dart';
 import 'package:voicly/features/auth/auth_screen.dart';
 import 'package:voicly/features/blocked/blocked_user_screen.dart';
 import 'package:voicly/features/call/call_screen.dart';
+import 'package:voicly/features/call/video_call_screen.dart';
 import 'package:voicly/features/coin/coin_screen.dart';
 import 'package:voicly/features/history/call_history_screen.dart';
 import 'package:voicly/features/home/home_screen.dart';
@@ -27,6 +28,7 @@ class AppRoutes {
   static const LANGUAGE = '/language';
   static const HOME = '/home';
   static const CALL_SCREEN = '/call_screen';
+  static const VIDEO_CALL_SCREEN = '/video_call_screen';
   static const UPDATE_PROFILE = '/update_profile';
   static const HISTORY = '/history_screen';
   static const TRANSACTION = '/transaction';
@@ -71,6 +73,11 @@ class AppPages {
     GetPage(
       name: AppRoutes.CALL_SCREEN,
       page: () => const CallView(),
+      binding: CallBinding(),
+    ),
+    GetPage(
+      name: AppRoutes.VIDEO_CALL_SCREEN,
+      page: () => const VideoCallScreen(),
       binding: CallBinding(),
     ),
 
