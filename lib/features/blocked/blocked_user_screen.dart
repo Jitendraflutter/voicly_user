@@ -25,7 +25,7 @@ class BlockedUsersScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: 28,
                   backgroundImage: NetworkImage(AppAssets.userUrl),
-                  backgroundColor: AppColors.primaryPeach.withOpacity(0.1),
+                  backgroundColor: AppColors.primaryPeach.withValues(alpha:0.1),
                 ),
                 const SizedBox(width: 16),
 
@@ -48,7 +48,7 @@ class BlockedUsersScreen extends StatelessWidget {
                         "Blocked on 12 Feb 2026",
                         style: TextStyle(
                           fontSize: 13,
-                          color: AppColors.onBackground.withOpacity(0.6),
+                          color: AppColors.onBackground.withValues(alpha:0.6),
                         ),
                       ),
                     ],
@@ -61,7 +61,7 @@ class BlockedUsersScreen extends StatelessWidget {
                     horizontal: 16,
                     vertical: 8,
                   ),
-                  color: AppColors.primaryPeach.withOpacity(0.1),
+                  color: AppColors.primaryPeach.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(12),
                   onPressed: () {
                     // Logic to unblock

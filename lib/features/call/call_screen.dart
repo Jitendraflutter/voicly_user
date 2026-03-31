@@ -1,4 +1,3 @@
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/caller_controller.dart';
@@ -149,7 +148,7 @@ class CallView extends StatelessWidget {
           boxShadow: isActive
               ? [
                   BoxShadow(
-                    color: activeColor.withOpacity(0.3),
+                    color: activeColor.withValues(alpha: 0.3),
                     blurRadius: 12,
                     offset: const Offset(0, 4),
                   ),

@@ -1,12 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:marquee/marquee.dart';
 import 'package:core/core.dart';
-import '../model/point_pack_model.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // 🟢 Added import
+import 'package:marquee/marquee.dart';
 import 'package:voicly/core/constant/app_assets.dart';
 
+import '../model/point_pack_model.dart';
 
 class EnhancedCoinCard extends StatelessWidget {
-  final PointPackModel pack; // Passing the full model
+  final PointPackModel pack;
   final bool isSelected;
   final VoidCallback onTap;
 
@@ -24,27 +25,27 @@ class EnhancedCoinCard extends StatelessWidget {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(28.r), // 🟢 Scaled
           color: isSelected
-              ? Colors.white.withOpacity(0.2)
-              : Colors.white.withOpacity(0.08),
+              ? Colors.white.withValues(alpha: 0.2)
+              : Colors.white.withValues(alpha: 0.08),
           border: Border.all(
             color: isSelected
                 ? AppColors.primaryLite
                 : (pack.isPopular ? AppColors.green : Colors.white12),
-            width: isSelected ? 2 : 1,
+            width: isSelected ? 2 : 1, // Kept absolute for crisp borders
           ),
           boxShadow: isSelected
               ? [
                   BoxShadow(
-                    color: AppColors.primaryLite.withOpacity(0.2),
-                    blurRadius: 15,
+                    color: AppColors.primaryLite.withValues(alpha: 0.2),
+                    blurRadius: 15.r, // 🟢 Scaled
                   ),
                 ]
               : [],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(28.r), // 🟢 Scaled
           child: Stack(
             children: [
               if (pack.discountPercent != null)
@@ -52,66 +53,66 @@ class EnhancedCoinCard extends StatelessWidget {
                   top: 0,
                   right: 0,
                   child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w, // 🟢 Scaled
+                      vertical: 5.h, // 🟢 Scaled
                     ),
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       color: AppColors.green,
                       borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(15),
+                        bottomLeft: Radius.circular(15.r), // 🟢 Scaled
                       ),
                     ),
                     child: Text(
                       pack.discountPercent!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 10,
+                        fontSize: 10.sp, // 🟢 Scaled
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
               Padding(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.w), // 🟢 Scaled
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
                       AppAssets.vp,
-                      width: 50,
-                      height: 50,
+                      width: 50.w, // 🟢 Scaled (.w on both to keep it square)
+                      height: 50.w,
                       fit: BoxFit.contain,
                     ),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h), // 🟢 Scaled
                     Text(
                       "${pack.points}",
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 22,
+                        fontSize: 22.sp, // 🟢 Scaled
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     Text(
                       pack.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white70,
-                        fontSize: 12,
+                        fontSize: 12.sp, // 🟢 Scaled
                       ),
                     ),
 
                     // SLIDING DESCRIPTION
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h), // 🟢 Scaled
                     SizedBox(
-                      height: 18,
+                      height: 18.h, // 🟢 Scaled
                       child: Marquee(
                         text: pack.description,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: AppColors.primaryLavender,
-                          fontSize: 11,
+                          fontSize: 11.sp, // 🟢 Scaled
                         ),
                         velocity: 30.0,
-                        blankSpace: 20.0,
+                        blankSpace: 20.w, // 🟢 Scaled horizontal space
                         pauseAfterRound: const Duration(seconds: 2),
                       ),
                     ),
@@ -122,18 +123,18 @@ class EnhancedCoinCard extends StatelessWidget {
                         if (pack.originalPrice != null)
                           Text(
                             "₹${pack.originalPrice}",
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Colors.white38,
-                              fontSize: 12,
+                              fontSize: 12.sp, // 🟢 Scaled
                               decoration: TextDecoration.lineThrough,
                             ),
                           ),
-                        const SizedBox(width: 6),
+                        SizedBox(width: 6.w), // 🟢 Scaled
                         Text(
                           "₹${pack.price}",
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
-                            fontSize: 18,
+                            fontSize: 18.sp, // 🟢 Scaled
                             fontWeight: FontWeight.bold,
                           ),
                         ),

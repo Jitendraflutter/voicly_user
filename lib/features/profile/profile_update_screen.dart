@@ -100,7 +100,7 @@ Widget _buildDatePickerField(
           width: double.infinity,
           padding: EdgeInsets.symmetric(vertical: 18, horizontal: 15),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha:0.05),
             borderRadius: BorderRadius.circular(15),
             border: Border.all(color: Colors.white10),
           ),
@@ -143,7 +143,7 @@ Widget _buildReadOnlyField(String label, String value) {
       labelText: label,
       labelStyle: TextStyle(color: Colors.white54),
       filled: true,
-      fillColor: Colors.white.withOpacity(0.05),
+      fillColor: Colors.white.withValues(alpha:0.05),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
@@ -202,7 +202,7 @@ Widget _genderButton({
       padding: EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
         // Background stays dark/glassy
-        color: Colors.white.withOpacity(0.05),
+        color: Colors.white.withValues(alpha:0.05),
         borderRadius: BorderRadius.circular(15),
         // Border changes color and width based on selection
         border: Border.all(
@@ -246,7 +246,7 @@ Widget _buildTextField(
       labelText: label,
       labelStyle: TextStyle(color: Colors.white54),
       filled: true,
-      fillColor: Colors.white.withOpacity(0.05),
+      fillColor: Colors.white.withValues(alpha:0.05),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,

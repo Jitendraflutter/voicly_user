@@ -16,7 +16,7 @@ dependencies:
   core:
     git:
       url: https://github.com/Jitendraflutter/voicly_core_package.git
-      ref: main #
+      ref: 9a546b8 #
 
 #  core:
 #     path: ../../voicly_core_package
@@ -49,6 +49,8 @@ dependencies:
   url_launcher: ^6.3.2
   razorpay_flutter: ^1.4.1
   firebase_app_check: ^0.4.1+4
+  flutter_screenutil: ^5.9.3
+  fluttertoast: ^9.0.0
 dev_dependencies:
   flutter_launcher_icons: ^0.14.4
   flutter_test:

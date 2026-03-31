@@ -1,3 +1,4 @@
+import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -5,9 +6,9 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:voicly/controller/auth/login_controller.dart';
-import 'package:core/core.dart';
 import 'package:voicly/core/constant/app_assets.dart';
 import 'package:voicly/core/constant/app_svg.dart';
+
 import 'base_layout.dart';
 
 class PhoneInputScreen extends StatelessWidget {
@@ -30,7 +31,7 @@ class PhoneInputScreen extends StatelessWidget {
             height: 180,
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
-              color: Colors.blue.withOpacity(0.05),
+              color: Colors.blue.withValues(alpha: 0.05),
               shape: BoxShape.circle,
             ),
             child: Image.asset(AppAssets.logo, fit: BoxFit.contain),
@@ -110,7 +111,7 @@ class PhoneInputScreen extends StatelessWidget {
       decoration: BoxDecoration(
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -127,7 +128,7 @@ class PhoneInputScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: AppColors.primaryPurple.withOpacity(0.3),
+                color: AppColors.primaryPurple.withValues(alpha: 0.3),
                 blurRadius: 15,
                 offset: const Offset(0, 8),
               ),

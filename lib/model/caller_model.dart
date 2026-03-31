@@ -10,8 +10,10 @@ class CallerModel {
   final List<String>? interests;
   final DateTime? dob;
   final String? bio;
+  final String? callStatus;
   final String? fcmToken;
   final bool? isOnline;
+  final bool? isVideoEnable;
 
   CallerModel({
     required this.uid,
@@ -23,6 +25,8 @@ class CallerModel {
     this.interests,
     this.mobileNo,
     this.fcmToken,
+    this.callStatus,
+    this.isVideoEnable,
     this.bio = "",
     this.isOnline = false,
   });
@@ -37,7 +41,9 @@ class CallerModel {
       gender: data['gender'],
       mobileNo: data['mobileNo'],
       fcmToken: data['fcmToken'],
+      callStatus: data['call_status'],
       isOnline: data['isOnline'] ?? false,
+      isVideoEnable: data['isVideoEnabled'] ?? false,
       interests: data['interests'] != null
           ? List<String>.from(data['interests'])
           : [],

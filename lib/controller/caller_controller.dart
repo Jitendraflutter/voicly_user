@@ -48,6 +48,47 @@ class CallController extends GetxController {
   final bool isVideoCall = Get.arguments['is_video'] ?? false;
   // ─────────────────────────────────────────────────────────────
 
+  var isLocalUserInPip = true.obs;
+
+  var pipTop = 60.0.obs;
+  var pipRight = 20.0.obs;
+  var isDragging =
+      false.obs; // Tracks if the user's finger is currently on the screen
+
+  // 🟢 The WhatsApp Snap Logic
+  void snapPipToCorner() {
+    double screenWidth = Get.width;
+    double screenHeight = Get.height;
+
+    // Your PiP widget sizes + padding
+    double pipWidth = 110.0;
+    double pipHeight = 150.0;
+    double padding = 20.0;
+    double bottomSafeZone =
+        150.0; // Keeps it above your bottom control buttons!
+
+    // Calculate the exact center point of the PiP widget right now
+    double currentX = screenWidth - pipRight.value - pipWidth;
+    double currentY = pipTop.value;
+    double centerX = currentX + (pipWidth / 2);
+    double centerY = currentY + (pipHeight / 2);
+
+    // 1. Snap Left or Right?
+    if (centerX < screenWidth / 2) {
+      pipRight.value = screenWidth - pipWidth - padding; // Snap to Left
+    } else {
+      pipRight.value = padding; // Snap to Right
+    }
+
+    // 2. Snap Top or Bottom?
+    if (centerY < screenHeight / 2) {
+      pipTop.value = padding + 40; // Snap to Top (40 avoids the status bar)
+    } else {
+      pipTop.value =
+          screenHeight - pipHeight - bottomSafeZone; // Snap to Bottom
+    }
+  }
+
   @override
   void onInit() {
     super.onInit();

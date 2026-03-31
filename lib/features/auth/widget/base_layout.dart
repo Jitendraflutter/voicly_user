@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
 import 'package:core/core.dart';
+import 'package:flutter/material.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
-
 
 class BaseAuthLayout extends StatelessWidget {
   final String title;
@@ -121,7 +120,7 @@ class BaseAuthLayout extends StatelessWidget {
             height: 300,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: AppColors.logoGradient.withOpacity(0.2),
+              gradient: AppColors.logoGradient.withValues(alpha:0.2),
             ),
           ),
         ),
@@ -145,7 +144,7 @@ class BaseAuthLayout extends StatelessWidget {
                   subtitle,
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppColors.onBackground.withOpacity(0.6),
+                    color: AppColors.onBackground.withValues(alpha:0.6),
                   ),
                 ),
                 const SizedBox(height: 60),

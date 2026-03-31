@@ -1,10 +1,9 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/splash_controller.dart';
 import 'package:voicly/core/constant/app_assets.dart';
-import 'package:core/core.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
-
 
 class SplashScreen extends GetView<SplashController> {
   const SplashScreen({super.key});
@@ -84,7 +83,7 @@ class SplashScreen extends GetView<SplashController> {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         shape: BoxShape.circle,
       ),
     );
@@ -179,7 +178,7 @@ class SplashScreen extends GetView<SplashController> {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha:0.1),
         shape: BoxShape.circle,
       ),
     );

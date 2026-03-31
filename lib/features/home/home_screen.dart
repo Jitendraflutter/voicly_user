@@ -3,6 +3,8 @@ import 'dart:ui';
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // 🟢 Added import
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/home_controller.dart';
 import 'package:voicly/controller/popup_controller.dart';
@@ -32,9 +34,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    popupController.checkBalanceAndCall(
-      authService.currentUser.value?.points.toInt() ?? 0,
-    );
+    Future.delayed(Duration(milliseconds: 1500)).then((value) {
+      popupController.checkBalanceAndCall(
+        authService.currentUser.value?.points.toInt() ?? 0,
+      );
+    });
 
     super.initState();
   }
@@ -46,19 +50,22 @@ class _HomeScreenState extends State<HomeScreen> {
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
-            expandedHeight: 80.0,
+            expandedHeight: 80.0.h,
             floating: false,
             pinned: true,
             stretch: true,
             backgroundColor: Colors.transparent,
             flexibleSpace: ClipRRect(
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+                filter: ImageFilter.blur(
+                  sigmaX: 15,
+                  sigmaY: 15,
+                ), // Kept absolute for crisp blur
                 child: FlexibleSpaceBar(
                   centerTitle: false,
-                  titlePadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 10,
+                  titlePadding: EdgeInsets.symmetric(
+                    horizontal: 20.w,
+                    vertical: 10.h,
                   ),
                   title: _buildAppBarContent(authService),
                 ),
@@ -92,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
           _buildHistoryButton("Your Companions"),
 
           Obx(() => _buildListView(_controller.callers)),
-          const SliverToBoxAdapter(child: SizedBox(height: 100)),
+          SliverToBoxAdapter(child: SizedBox(height: 100.h)),
         ],
       ),
     );
@@ -102,7 +109,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Image.asset(AppAssets.appName, height: 25, fit: BoxFit.fitHeight),
+        Image.asset(AppAssets.appName, height: 25.h, fit: BoxFit.fitHeight),
 
         Row(
           children: [
@@ -110,11 +117,13 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: EdgeInsets.zero,
               onPressed: () => Get.toNamed(AppRoutes.COIN),
               child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.h),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(7),
-                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(7.r),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
@@ -124,26 +133,26 @@ class _HomeScreenState extends State<HomeScreen> {
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.amber.withOpacity(0.4),
-                            blurRadius: 8,
+                            color: Colors.amber.withValues(alpha: 0.4),
+                            blurRadius: 8.r,
                             spreadRadius: 1,
                           ),
                         ],
                       ),
                       child: Image.asset(
                         AppAssets.vp,
-                        width: 20,
-                        height: 20,
+                        width: 20.w,
+                        height: 20.w,
                         fit: BoxFit.contain,
                       ),
                     ),
-                    const SizedBox(width: 2),
+                    SizedBox(width: 2.w),
                     Obx(() {
                       final user = auth.currentUser.value;
                       return Text(
                         (auth.currentUser.value?.points ?? 0).toString(),
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.bold,
                           color: AppColors.onBackground,
                         ),
@@ -153,15 +162,15 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
             Obx(() {
               final user = auth.currentUser.value;
 
               return Hero(
                 tag: "profile_pic",
                 child: VoiclyAvatar(
-                  radius: 14,
-                  borderWidth: 1.0,
+                  radius: 14.r,
+                  borderWidth: 1.0, // Kept absolute for crisp border
                   imageUrl: user?.profilePic ?? AppAssets.userUrl,
                   showStatus: false,
                   onTap: () => Get.toNamed(AppRoutes.PROFILE),
@@ -180,12 +189,12 @@ class _HomeScreenState extends State<HomeScreen> {
         final caller = _controller.callers[index];
 
         return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+          padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 8.h),
           child: GlassContainer(
             child: Row(
               children: [
                 VoiclyAvatar(
-                  radius: 25,
+                  radius: 35.r,
                   imageUrl: caller.profilePic.isNotEmpty
                       ? caller.profilePic
                       : AppAssets.userUrl,
@@ -197,61 +206,105 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 15),
+                SizedBox(width: 15.w),
 
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        caller.fullName, // Dynamic Name
-                        style: const TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 15,
+                        caller.fullName,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.sp,
                           color: AppColors.onBackground,
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
-                        Helpers.ageFormatter(
-                          caller.dob.toString(),
-                        ), // Dynamic Age
-                        style: const TextStyle(
-                          fontSize: 13,
+                        Helpers.ageFormatter(caller.dob.toString()),
+                        style: TextStyle(
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primaryPeach,
                         ),
                       ),
-                      const SizedBox(height: 4),
+                      SizedBox(height: 4.h),
                       Text(
                         caller.isOnline == true
-                            ? "Online"
-                            : "Offline", // Dynamic Status
-                        style: TextStyle(color: AppColors.grey, fontSize: 12),
+                            ? caller.callStatus == "active"
+                                  ? "Busy"
+                                  : "Online"
+                            : "Offline",
+                        style: TextStyle(
+                          color: caller.isOnline == true
+                              ? caller.callStatus == "active"
+                                    ? Colors.red
+                                    : Colors.green
+                              : AppColors.grey,
+                          fontSize: 12.sp,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ],
                   ),
                 ),
 
-                const SizedBox(width: 4),
+                SizedBox(width: 3.w),
                 Row(
                   children: [
                     CallButton(
                       icon: CupertinoIcons.phone_fill,
-                      color: AppColors.onPrimary,
-                      onTap: () {
-                        _controller.startCall(caller);
-                      }, // Trigger Cloud Function
+                      color: caller.isOnline == true
+                          ? AppColors.onPrimary
+                          : Colors.grey.shade600,
+                      onTap: caller.isOnline == false
+                          ? () {
+                              Fluttertoast.showToast(
+                                msg: "The user is currently offline",
+                              );
+                            }
+                          : () {
+                              if (caller.callStatus == "active") {
+                                Fluttertoast.showToast(
+                                  msg: "The user is currently Busy",
+                                );
+                                return;
+                              }
+                              _controller.startCall(caller);
+                            },
                     ),
-                    const SizedBox(width: 8),
+                    SizedBox(width: 4.w),
                     CallButton(
                       icon: CupertinoIcons.videocam_fill,
-                      color: AppColors.onPrimary,
+                      color:
+                          (caller.isOnline == true &&
+                              caller.isVideoEnable == true)
+                          ? AppColors.onPrimary
+                          : Colors.grey.shade600,
                       onTap: () {
+                        if (caller.isOnline == false) {
+                          Fluttertoast.showToast(
+                            msg: "The user is currently offline",
+                          );
+                          return;
+                        }
+                        if (caller.isVideoEnable == false) {
+                          Fluttertoast.showToast(
+                            msg: "This user has disabled video calls",
+                          );
+                          return;
+                        }
+                        if (caller.callStatus == "active") {
+                          Fluttertoast.showToast(
+                            msg: "The user is currently Busy",
+                          );
+                          return;
+                        }
                         _controller.startCall(caller, isVideo: true);
-                      }, // Trigger Agora Video
+                      },
                     ),
                   ],
                 ),
@@ -266,15 +319,15 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildHistoryButton(String title) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 10),
+        padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 10.h),
         child: Row(
           children: [
             Text(
               title,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
-                color: AppColors.onBackground.withOpacity(0.8),
+                color: AppColors.onBackground.withValues(alpha: 0.8),
               ),
             ),
             const Spacer(),
@@ -284,16 +337,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 Get.toNamed(AppRoutes.HISTORY);
               },
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(8.w),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withOpacity(0.3)),
+                  color: Colors.white.withValues(alpha: 0.2),
+                  borderRadius: BorderRadius.circular(12.r),
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.3),
+                  ),
                 ),
                 child: Icon(
                   CupertinoIcons.clock,
                   color: AppColors.onBackground,
-                  size: 20,
+                  size: 20.sp,
                 ),
               ),
             ),
@@ -302,111 +357,4 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
     );
   }
-
-  /*
-  Widget _buildTopIcons() {
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 220,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          itemCount: _controller.callers.length,
-          itemBuilder: (context, index) {
-            final caller = _controller.callers[index];
-            return Padding(
-              padding: const EdgeInsets.only(right: 14),
-              child: _buildGridCard(caller), // same card widget
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGridCard(CallerModel caller) {
-    return GlassContainer(
-      child: LayoutBuilder(
-        builder: (context, constraints) {
-          return Column(
-            children: [
-              const SizedBox(height: 10),
-              Expanded(
-                flex: 4,
-                child: Center(
-                  child: VoiclyAvatar(
-                    imageUrl: caller.profilePic.isNotEmpty
-                        ? caller.profilePic
-                        : AppAssets.userUrl,
-                    isOnline: caller.isOnline ?? false,
-                    onTap: () =>
-                        Get.bottomSheet(ProfileSheet(callerModel: caller)),
-                  ),
-                ),
-              ),
-
-              /// text area flexible
-              Expanded(
-                flex: 3,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      caller.fullName,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.onBackground,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      "${caller.dob.toString()} Y",
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      caller.isOnline == true ? "Online" : "Offline",
-                      style: const TextStyle(
-                        fontSize: 12,
-                        color: AppColors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-
-              /// buttons flexible
-              Expanded(
-                flex: 3,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    CallButton(
-                      icon: CupertinoIcons.phone_fill,
-                      color: AppColors.onPrimary,
-                      onTap: () {
-                        _controller.startCall(caller);
-                      },
-                    ),
-                    const SizedBox(width: 8),
-                    CallButton(
-                      icon: CupertinoIcons.videocam_fill,
-                      color: AppColors.onPrimary,
-                      onTap: () {},
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-  }
-*/
 }

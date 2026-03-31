@@ -1,9 +1,11 @@
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+
 import 'controller/popup_controller.dart';
-import 'package:core/core.dart';
 import 'core/route/routes.dart';
 
 class App extends StatelessWidget {
@@ -24,21 +26,28 @@ class App extends StatelessWidget {
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.dark,
       ),
-      child: GlobalLoaderOverlay(
-        overlayWidgetBuilder: (_) => const Center(
-          child: CircularProgressIndicator.adaptive(
-            valueColor: AlwaysStoppedAnimation(AppColors.primary),
-          ),
-        ),
-        child: GetMaterialApp(
-          debugShowCheckedModeBanner: false,
-          defaultTransition: Transition.fadeIn,
-          initialRoute: AppRoutes.getInitialRoute(),
-          getPages: AppPages.pages,
-          initialBinding: BindingsBuilder(() {
-            Get.put(PopupController());
-          }),
-        ),
+      child: ScreenUtilInit(
+        designSize: Size(433, 964),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: (_, _) {
+          return GlobalLoaderOverlay(
+            overlayWidgetBuilder: (_) => const Center(
+              child: CircularProgressIndicator.adaptive(
+                valueColor: AlwaysStoppedAnimation(AppColors.primary),
+              ),
+            ),
+            child: GetMaterialApp(
+              debugShowCheckedModeBanner: false,
+              defaultTransition: Transition.fadeIn,
+              initialRoute: AppRoutes.getInitialRoute(),
+              getPages: AppPages.pages,
+              initialBinding: BindingsBuilder(() {
+                Get.put(PopupController());
+              }),
+            ),
+          );
+        },
       ),
     );
   }

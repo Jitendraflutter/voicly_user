@@ -1,11 +1,9 @@
-import 'dart:ui';
+import 'package:core/core.dart';
 import 'package:core/widget/widget_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:core/core.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
-import '../../../model/caller_model.dart';
 import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/model/caller_model.dart';
 
 class ProfileSheet extends StatelessWidget {
   final CallerModel callerModel;
@@ -55,7 +53,7 @@ class ProfileSheet extends StatelessWidget {
           onPressed: () => Get.back(),
           icon: const Icon(Icons.close_rounded, color: AppColors.primaryLite),
           style: IconButton.styleFrom(
-            backgroundColor: AppColors.primaryLite.withOpacity(0.2),
+            backgroundColor: AppColors.primaryLite.withValues(alpha: 0.2),
           ),
         ),
       ],
@@ -101,7 +99,7 @@ class ProfileSheet extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blueAccent.withOpacity(0.05),
+        color: Colors.blueAccent.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
@@ -116,7 +114,7 @@ class ProfileSheet extends StatelessWidget {
       children: [
         Expanded(
           child: Opacity(
-             opacity: 0.6,
+            opacity: 0.6,
             child: AppButton(
               text: 'Video',
               onPressed: null,
