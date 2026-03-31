@@ -8,6 +8,7 @@ import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/route/routes.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'caller_overlay_controller.dart';
 
@@ -160,7 +161,8 @@ class CallController extends GetxController {
         await _engine.enableVideo();
         await _engine.startPreview();
         isCameraOn.value = true;
-        isSpeaker.value = true; // Video calls usually default to speakerphone
+        isSpeaker.value = true;
+        WakelockPlus.enable(); // Video calls usually default to speakerphone
       }
       await _engine.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
 
@@ -335,6 +337,7 @@ class CallController extends GetxController {
     if (isVideoCall) {
       if (Get.currentRoute == AppRoutes.VIDEO_CALL_SCREEN) {
         Get.back(result: "end_call");
+        WakelockPlus.disable();
       }
       return;
     }
