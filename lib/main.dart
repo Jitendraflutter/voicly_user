@@ -1,5 +1,6 @@
 import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_storage/get_storage.dart';
@@ -16,7 +17,9 @@ void main() async {
   ]);
   await Firebase.initializeApp();
   await FirebaseAppCheck.instance.activate(
-    providerAndroid: AndroidDebugProvider(),
+    providerAndroid: kReleaseMode
+        ? AndroidPlayIntegrityProvider()
+        : AndroidDebugProvider(),
   );
   await GetStorage.init();
   setupFlutterNotifications();

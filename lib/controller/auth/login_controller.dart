@@ -96,7 +96,7 @@ class LoginController extends GetxController {
 
   void _saveUserToLocal(UserModel user) {
     LocalStorage.setUid(user.uid);
-    LocalStorage.setEmail(user.email);
+    LocalStorage.setEmail(user.email ?? "");
     LocalStorage.setFirstName(user.fullName); // You can split name if needed
     LocalStorage.setProfileUrl(user.profilePic);
     LocalStorage.setPoints(user.points);

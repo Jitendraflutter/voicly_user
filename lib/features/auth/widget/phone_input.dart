@@ -10,6 +10,7 @@ import 'package:voicly/core/constant/app_assets.dart';
 import 'package:voicly/core/constant/app_svg.dart';
 
 import 'base_layout.dart';
+import 'mobile_number_sheet.dart';
 
 class PhoneInputScreen extends StatelessWidget {
   final VoidCallback onNext;
@@ -49,6 +50,21 @@ class PhoneInputScreen extends StatelessWidget {
           const SizedBox(height: 40),
 
           _buildSocialButton(
+            leadingIcon: Icon(Icons.phone_android_sharp, color: Colors.white),
+            text: "Moble Number",
+            onPressed: () async {
+              Get.bottomSheet(
+                LoginBottomSheet(),
+                isScrollControlled:
+                    true, // 🟢 VERY IMPORTANT: Allows the sheet to move up when the keyboard opens
+                backgroundColor:
+                    Colors.transparent, // Keeps your rounded top corners clean
+              );
+            },
+          ),
+          SizedBox(height: 20),
+          _buildSocialButton(
+            leadingIcon: SvgPicture.asset(AppSvg.google, width: 24, height: 24),
             text: AppStrings.signInWithGoogle,
             onPressed: () async {
               try {
@@ -103,6 +119,7 @@ class PhoneInputScreen extends StatelessWidget {
 
   Widget _buildSocialButton({
     required String text,
+    final Widget? leadingIcon,
     required VoidCallback onPressed,
   }) {
     return Container(
@@ -137,7 +154,7 @@ class PhoneInputScreen extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SvgPicture.asset(AppSvg.google, width: 24, height: 24),
+              ?leadingIcon,
               const SizedBox(width: 12),
               Text(
                 text,
