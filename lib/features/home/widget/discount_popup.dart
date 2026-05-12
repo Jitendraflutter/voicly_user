@@ -1,12 +1,11 @@
 import 'dart:ui';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
+
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../controller/popup_controller.dart';
+
 import '../../../core/route/routes.dart';
 import '../model/popup_model.dart';
-import 'package:core/core.dart';
 
 class DynamicPopup extends StatelessWidget {
   final PopupModel data;
@@ -30,7 +29,7 @@ class DynamicPopup extends StatelessWidget {
               decoration: BoxDecoration(
                 color: const Color(0xFF13111A),
                 borderRadius: BorderRadius.circular(35),
-                border: Border.all(color: Colors.white.withOpacity(0.1)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -48,7 +47,7 @@ class DynamicPopup extends StatelessWidget {
                     data.description,
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       height: 1.4,
                     ),
                   ),
@@ -98,7 +97,7 @@ class DynamicPopup extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha:0.05),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Row(
@@ -173,9 +172,9 @@ class DynamicPopup extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.03),
+          color: Colors.white.withValues(alpha: 0.03),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Colors.white.withOpacity(0.05)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
         ),
         child: Column(
           children: [
@@ -230,7 +229,7 @@ class DynamicPopup extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: AppColors.green.withOpacity(0.1),
+                      color: AppColors.green.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Text(
@@ -261,14 +260,14 @@ class DynamicPopup extends StatelessWidget {
                       Text(
                         data.originalPriceLabel!.toUpperCase(),
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.3),
+                          color: Colors.white.withValues(alpha: 0.3),
                           fontSize: 10,
                         ),
                       ),
                     Text(
                       '${data.currency}${data.originalPrice}',
                       style: TextStyle(
-                        color: Colors.white.withOpacity(0.4),
+                        color: Colors.white.withValues(alpha: 0.4),
                         fontSize: 16,
                         decoration: TextDecoration.lineThrough,
                       ),

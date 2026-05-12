@@ -27,16 +27,27 @@ class VideoCallScreen extends StatelessWidget {
               // 1. BACKGROUND: Remote Video or Waiting Screen
               Obx(() {
                 if (controller.agoraRemoteUserId.value != 0) {
-                  return AgoraVideoView(
-                    controller: VideoViewController.remote(
-                      rtcEngine: controller.engine,
-                      canvas: VideoCanvas(
-                        uid: controller.agoraRemoteUserId.value,
-                      ),
-                      connection: RtcConnection(
-                        channelId: controller.channelId,
-                      ),
-                    ),
+                  return SizedBox.expand(
+                    child: controller.isLocalUserInPip.value
+                        // 🟢 Remote User is Fullscreen
+                        ? AgoraVideoView(
+                            controller: VideoViewController.remote(
+                              rtcEngine: controller.engine,
+                              canvas: VideoCanvas(
+                                uid: controller.agoraRemoteUserId.value,
+                              ),
+                              connection: RtcConnection(
+                                channelId: controller.channelId,
+                              ),
+                            ),
+                          )
+                        // 🟢 Local User is Fullscreen
+                        : AgoraVideoView(
+                            controller: VideoViewController(
+                              rtcEngine: controller.engine,
+                              canvas: const VideoCanvas(uid: 0),
+                            ),
+                          ),
                   );
                 } else {
                   // While ringing/dialing
@@ -69,23 +80,60 @@ class VideoCallScreen extends StatelessWidget {
               // 2. FOREGROUND (PiP): Local User Video
               Obx(() {
                 if (controller.isCameraOn.value) {
-                  return Positioned(
-                    top: 20,
-                    right: 20,
-                    child: Container(
-                      width: 110,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: Colors.white38, width: 1),
-                      ),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: AgoraVideoView(
-                          controller: VideoViewController(
-                            rtcEngine: controller.engine,
-                            canvas: const VideoCanvas(uid: 0),
-                          ),
+                  return AnimatedPositioned(
+                    // 🟢 The Secret: 0ms when dragging, 300ms for the magnetic snap!
+                    duration: Duration(
+                      milliseconds: controller.isDragging.value ? 0 : 300,
+                    ),
+                    curve: Curves
+                        .easeOutBack, // Gives it a slight "bouncy" feel like WhatsApp
+                    top: controller.pipTop.value,
+                    right: controller.pipRight.value,
+
+                    child: GestureDetector(
+                      onTap: controller.isLocalUserInPip.toggle,
+                      onPanStart: (details) {
+                        controller.isDragging.value = true;
+                      },
+                      onPanUpdate: (details) {
+                        controller.pipTop.value += details.delta.dy;
+                        controller.pipRight.value -= details.delta.dx;
+                      },
+                      onPanEnd: (details) {
+                        controller.isDragging.value = false;
+                        controller
+                            .snapPipToCorner(); // 🟢 Trigger the math function when they let go!
+                      },
+
+                      child: Container(
+                        width: 110,
+                        height: 150,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.white38, width: 1),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(12),
+                          child: controller.isLocalUserInPip.value
+                              // 🟢 Local User is in the PiP
+                              ? AgoraVideoView(
+                                  controller: VideoViewController(
+                                    rtcEngine: controller.engine,
+                                    canvas: const VideoCanvas(uid: 0),
+                                  ),
+                                )
+                              // 🟢 Remote User is in the PiP
+                              : AgoraVideoView(
+                                  controller: VideoViewController.remote(
+                                    rtcEngine: controller.engine,
+                                    canvas: VideoCanvas(
+                                      uid: controller.agoraRemoteUserId.value,
+                                    ),
+                                    connection: RtcConnection(
+                                      channelId: controller.channelId,
+                                    ),
+                                  ),
+                                ),
                         ),
                       ),
                     ),

@@ -27,8 +27,8 @@ class PulsingAvatar extends StatelessWidget {
         height: baseSize + glowSpread,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: Colors.green.withOpacity(
-            normalizedVolume * 0.5,
+          color: Colors.green.withValues(
+            alpha: normalizedVolume * 0.5,
           ), // Fades in when loud
         ),
         alignment: Alignment.center,

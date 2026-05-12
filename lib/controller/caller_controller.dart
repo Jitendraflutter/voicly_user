@@ -8,6 +8,7 @@ import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/route/routes.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 import 'caller_overlay_controller.dart';
 
@@ -32,12 +33,9 @@ class CallController extends GetxController {
   var isCameraOn = false.obs;
   var isFrontCamera =
       true.obs; // Changed to .obs so UI can react when they join!
-
   RtcEngine get engine => _engine;
-
   static const _channel = MethodChannel('com.voicly.app/call_service');
 
-  // ───── ARGUMENTS ─────
   final CallOverlayController overlayController =
       Get.find<CallOverlayController>();
   final String channelId = Get.arguments['channel_id'];
@@ -50,6 +48,47 @@ class CallController extends GetxController {
   // 🟢 NEW: Determine Call Type
   final bool isVideoCall = Get.arguments['is_video'] ?? false;
   // ─────────────────────────────────────────────────────────────
+
+  var isLocalUserInPip = true.obs;
+
+  var pipTop = 60.0.obs;
+  var pipRight = 20.0.obs;
+  var isDragging =
+      false.obs; // Tracks if the user's finger is currently on the screen
+
+  // 🟢 The WhatsApp Snap Logic
+  void snapPipToCorner() {
+    double screenWidth = Get.width;
+    double screenHeight = Get.height;
+
+    // Your PiP widget sizes + padding
+    double pipWidth = 110.0;
+    double pipHeight = 150.0;
+    double padding = 20.0;
+    double bottomSafeZone =
+        150.0; // Keeps it above your bottom control buttons!
+
+    // Calculate the exact center point of the PiP widget right now
+    double currentX = screenWidth - pipRight.value - pipWidth;
+    double currentY = pipTop.value;
+    double centerX = currentX + (pipWidth / 2);
+    double centerY = currentY + (pipHeight / 2);
+
+    // 1. Snap Left or Right?
+    if (centerX < screenWidth / 2) {
+      pipRight.value = screenWidth - pipWidth - padding; // Snap to Left
+    } else {
+      pipRight.value = padding; // Snap to Right
+    }
+
+    // 2. Snap Top or Bottom?
+    if (centerY < screenHeight / 2) {
+      pipTop.value = padding + 40; // Snap to Top (40 avoids the status bar)
+    } else {
+      pipTop.value =
+          screenHeight - pipHeight - bottomSafeZone; // Snap to Bottom
+    }
+  }
 
   @override
   void onInit() {
@@ -122,7 +161,8 @@ class CallController extends GetxController {
         await _engine.enableVideo();
         await _engine.startPreview();
         isCameraOn.value = true;
-        isSpeaker.value = true; // Video calls usually default to speakerphone
+        isSpeaker.value = true;
+        WakelockPlus.enable(); // Video calls usually default to speakerphone
       }
       await _engine.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
 
@@ -297,6 +337,7 @@ class CallController extends GetxController {
     if (isVideoCall) {
       if (Get.currentRoute == AppRoutes.VIDEO_CALL_SCREEN) {
         Get.back(result: "end_call");
+        WakelockPlus.disable();
       }
       return;
     }

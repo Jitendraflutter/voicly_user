@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:core/core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import '../../../controller/match_controller.dart';
 import '../../../model/caller_model.dart';
-import 'package:core/core.dart';
-
 
 class MatchDialog {
   static void show(List<CallerModel> candidates) {
@@ -119,7 +119,7 @@ class MatchDialog {
       child: Container(
         padding: const EdgeInsets.all(15),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.2),
+          color: color.withValues(alpha: 0.2),
           shape: BoxShape.circle,
           border: Border.all(color: color, width: 1.5),
         ),

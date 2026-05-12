@@ -1,13 +1,15 @@
+import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // 🟢 Added import
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/widget/screen_wrapper.dart';
+
 import '../../controller/call_history_controller.dart';
 import '../../controller/home_controller.dart';
 import 'model/call_history_model.dart';
-import 'package:core/core.dart';
-import 'package:voicly/core/constant/app_assets.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
 
 class CallHistoryScreen extends StatelessWidget {
   const CallHistoryScreen({super.key});
@@ -27,8 +29,14 @@ class CallHistoryScreen extends StatelessWidget {
           );
         }
         if (controller.callLogs.isEmpty) {
-          return const Center(
-            child: Text("No calls yet", style: TextStyle(color: Colors.white)),
+          return Center(
+            child: Text(
+              "No calls yet",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16.sp,
+              ), // 🟢 Scaled
+            ),
           );
         }
 
@@ -48,9 +56,9 @@ class CallHistoryScreen extends StatelessWidget {
                 : "Unknown Time";
 
             return Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 8.0,
-                horizontal: 16,
+              padding: EdgeInsets.symmetric(
+                vertical: 8.h, // 🟢 Scaled
+                horizontal: 16.w, // 🟢 Scaled
               ),
               child: Dismissible(
                 key: Key(call.historyId ?? index.toString()),
@@ -61,50 +69,50 @@ class CallHistoryScreen extends StatelessWidget {
                   child: Row(
                     children: [
                       CircleAvatar(
-                        radius: 28,
+                        radius: 28.r, // 🟢 Scaled
                         backgroundImage: NetworkImage(displayAvatar),
-                        backgroundColor: AppColors.primaryPeach.withOpacity(
+                        backgroundColor: AppColors.primaryPeach.withValues(alpha:
                           0.1,
                         ),
                       ),
-                      const SizedBox(width: 16),
+                      SizedBox(width: 16.w), // 🟢 Scaled
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               displayName,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.onBackground,
-                                fontSize: 17,
+                                fontSize: 17.sp, // 🟢 Scaled
                               ),
                             ),
-                            const SizedBox(height: 4),
+                            SizedBox(height: 4.h), // 🟢 Scaled
                             Row(
                               children: [
                                 Icon(
                                   Icons.call_made,
-                                  size: 14,
+                                  size: 14.sp, // 🟢 Scaled
                                   color: Colors.green,
                                 ),
-                                const SizedBox(width: 6),
+                                SizedBox(width: 6.w), // 🟢 Scaled
                                 Text(
                                   formattedTime,
                                   style: TextStyle(
-                                    fontSize: 13,
-                                    color: AppColors.onBackground.withOpacity(
+                                    fontSize: 13.sp, // 🟢 Scaled
+                                    color: AppColors.onBackground.withValues(alpha:
                                       0.6,
                                     ),
                                   ),
                                 ),
                               ],
                             ),
-                            const SizedBox(height: 2),
+                            SizedBox(height: 2.h), // 🟢 Scaled
                             Text(
                               "Duration: ${call.durationSeconds ?? 0}s",
-                              style: const TextStyle(
-                                fontSize: 12,
+                              style: TextStyle(
+                                fontSize: 12.sp, // 🟢 Scaled
                                 fontWeight: FontWeight.w500,
                                 color: AppColors.primaryPeach,
                               ),
@@ -119,10 +127,10 @@ class CallHistoryScreen extends StatelessWidget {
                             color: AppColors.onPrimary,
                             // onTap: () => callController.startCall(caller),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8.w), // 🟢 Scaled
                           CallButton(
                             icon: CupertinoIcons.videocam_fill,
-                            color: AppColors.onPrimary.withOpacity(0.4),
+                            color: AppColors.onPrimary.withValues(alpha:0.4),
                             // onTap: () => callController.startCall(caller, isVideo: true),
                           ),
                         ],
@@ -140,14 +148,18 @@ class CallHistoryScreen extends StatelessWidget {
 
   Widget _buildDeleteBackground() {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12.h), // 🟢 Scaled
       decoration: BoxDecoration(
-        color: Colors.redAccent.withOpacity(0.2),
-        borderRadius: BorderRadius.circular(20),
+        color: Colors.redAccent.withValues(alpha:0.2),
+        borderRadius: BorderRadius.circular(20.r), // 🟢 Scaled
       ),
       alignment: Alignment.centerRight,
-      padding: const EdgeInsets.only(right: 25),
-      child: const Icon(CupertinoIcons.delete, color: Colors.white, size: 24),
+      padding: EdgeInsets.only(right: 25.w), // 🟢 Scaled
+      child: Icon(
+        CupertinoIcons.delete,
+        color: Colors.white,
+        size: 24.sp, // 🟢 Scaled
+      ),
     );
   }
 }

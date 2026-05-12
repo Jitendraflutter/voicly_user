@@ -3,8 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserModel {
   final String uid;
   final String fullName;
-  final String email;
+  final String? email;
   final String profilePic;
+  final String? mobile;
   final String? gender;
   final DateTime? dob;
   final String? bio;
@@ -14,7 +15,8 @@ class UserModel {
   UserModel({
     required this.uid,
     required this.fullName,
-    required this.email,
+    this.email,
+    this.mobile,
     required this.profilePic,
     required this.gender,
     this.dob,
@@ -29,6 +31,7 @@ class UserModel {
     return UserModel(
       uid: doc.id,
       fullName: data['fullName'] ?? '',
+      mobile: data['mobile'] ?? '',
       email: data['email'] ?? '',
       profilePic: data['profilePic'] ?? '',
       gender: data['gender'] ?? '',
@@ -45,6 +48,7 @@ class UserModel {
       'fullName': fullName,
       'email': email,
       'profilePic': profilePic,
+      'mobile': mobile,
       'gender': gender,
       'dob': dob != null ? Timestamp.fromDate(dob!) : null,
       'bio': bio,
@@ -58,6 +62,7 @@ class UserModel {
       uid: uid,
       fullName: fullName,
       email: email,
+      mobile: mobile,
       profilePic: profilePic,
       gender: gender,
       dob: dob,
@@ -72,7 +77,7 @@ class UserModel {
     int completedFields = 0;
 
     if (fullName.isNotEmpty) completedFields++;
-    if (email.isNotEmpty) completedFields++;
+    if (email!.isNotEmpty) completedFields++;
     if (profilePic.isNotEmpty) completedFields++;
     if ((gender ?? "").isNotEmpty) completedFields++;
     if (dob != null) completedFields++;

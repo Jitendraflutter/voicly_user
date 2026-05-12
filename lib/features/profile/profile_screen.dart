@@ -1,15 +1,17 @@
 import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:voicly/core/constant/app_assets.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/core/utils/local_storage.dart';
 import 'package:voicly/networks/auth_services.dart';
-import 'LogoutModal.dart';
-import 'package:core/core.dart';
-import 'package:voicly/core/constant/app_assets.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
+
+import 'LogoutModal.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -42,7 +44,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                   centerTitle: true,
-                  // background: Container(color: Colors.white.withOpacity(0.2)),
+                  // background: Container(color: Colors.white.withValues(alpha:0.2)),
                 ),
               ),
             ),
@@ -183,7 +185,7 @@ class ProfileScreen extends StatelessWidget {
                             "Permanently remove your account",
                             isDestructive: true,
                             onPressed: () {
-                             Get.toNamed(AppRoutes.DELETE_SCREEN);
+                              Get.toNamed(AppRoutes.DELETE_SCREEN);
                             },
                           ),
 
@@ -226,10 +228,10 @@ class ProfileScreen extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.4),
+              color: Colors.white.withValues(alpha: 0.4),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.white.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -262,7 +264,7 @@ class ProfileScreen extends StatelessWidget {
                     (isDestructive ? AppColors.error : AppColors.primaryLite
                         // AppColors.primaryPeach
                         )
-                        .withOpacity(0.1),
+                        .withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -292,7 +294,7 @@ class ProfileScreen extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.onBackground.withOpacity(0.5),
+                        color: AppColors.onBackground.withValues(alpha: 0.5),
                       ),
                     ),
                 ],
@@ -301,7 +303,7 @@ class ProfileScreen extends StatelessWidget {
             Icon(
               CupertinoIcons.chevron_forward,
               size: 16,
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.grey.withValues(alpha: 0.5),
             ),
           ],
         ),
@@ -395,7 +397,9 @@ class ProfileScreen extends StatelessWidget {
         ),
         Text(
           subtitle,
-          style: TextStyle(color: AppColors.onBackground.withOpacity(0.6)),
+          style: TextStyle(
+            color: AppColors.onBackground.withValues(alpha: 0.6),
+          ),
         ),
       ],
     );
