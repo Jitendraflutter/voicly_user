@@ -66,7 +66,7 @@ class PhoneInputScreen extends StatelessWidget {
           SizedBox(height: 20),
           _buildSocialButton(
             leadingIcon: SvgPicture.asset(AppSvg.google, width: 24, height: 24),
-            text: AppText.signInWithGoogle,
+            text: AppStrings.signInWithGoogle,
             onPressed: () async {
               try {
                 context.loaderOverlay.show();
