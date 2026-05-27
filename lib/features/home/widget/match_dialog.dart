@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
@@ -95,7 +96,7 @@ class MatchDialog {
                       TextButton(
                         onPressed: () => Get.back(),
                         child: const Text(
-                          "Cancel",
+                          AppText.cancel,
                           style: TextStyle(color: Colors.white60),
                         ),
                       ),

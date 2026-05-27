@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:core/core.dart';
@@ -35,7 +36,7 @@ class BlockedUsersScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Blocked User',
+                        AppText.blockedUser,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           color: AppColors.onBackground,
@@ -45,7 +46,7 @@ class BlockedUsersScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "Blocked on 12 Feb 2026",
+                        AppText.blockedOn12Feb2026,
                         style: TextStyle(
                           fontSize: 13,
                           color: AppColors.onBackground.withValues(alpha:0.6),
@@ -67,7 +68,7 @@ class BlockedUsersScreen extends StatelessWidget {
                     // Logic to unblock
                   },
                   child: const Text(
-                    "Unblock",
+                    AppText.unblock,
                     style: TextStyle(
                       color: Colors.redAccent,
                       fontSize: 14,

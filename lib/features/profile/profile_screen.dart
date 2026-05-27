@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -36,7 +37,7 @@ class ProfileScreen extends StatelessWidget {
                 filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                 child: FlexibleSpaceBar(
                   title: const Text(
-                    "Profile",
+                    AppText.profile,
                     style: TextStyle(
                       color: AppColors.onBackground,
                       fontWeight: FontWeight.bold,
@@ -127,7 +128,7 @@ class ProfileScreen extends StatelessWidget {
                             "Privacy Policy",
                             "Data usage & safety",
                             onPressed: () =>
-                                Helpers.launchURL(AppStrings.privacyPolicy),
+                                Helpers.launchURL(AppText.privacyPolicy),
                           ),
 
                           _profileTile(
@@ -135,7 +136,7 @@ class ProfileScreen extends StatelessWidget {
                             "Terms & Conditions",
                             "Legal agreements",
                             onPressed: () =>
-                                Helpers.launchURL(AppStrings.termsOfService),
+                                Helpers.launchURL(AppText.termsOfService),
                           ),
                           _profileTile(
                             CupertinoIcons.person_2_fill,

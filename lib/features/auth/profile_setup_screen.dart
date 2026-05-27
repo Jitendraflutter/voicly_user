@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:core/core.dart';
 import 'widget/base_layout.dart';
@@ -25,7 +26,7 @@ class ProfileSetupScreen extends StatelessWidget {
             readOnly: true,
           ),
           const SizedBox(height: 40),
-          AppButton(text: "Complete Setup", onPressed: onComplete),
+          AppButton(text: AppText.completeSetup, onPressed: onComplete),
         ],
       ),
     );

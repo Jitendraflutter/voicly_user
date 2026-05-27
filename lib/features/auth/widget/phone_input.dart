@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -42,7 +43,7 @@ class PhoneInputScreen extends StatelessWidget {
 
           // Enhanced description text
           const Text(
-            "Experience seamless access to your account. No passwords, no waiting—just secure and fast authentication.",
+            AppText.experienceSeamlessAccessToYourAccountNoPasswordsNoWaitingjustSecureAndFastAuthentication,
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 14, color: AppColors.grey, height: 1.5),
           ),
@@ -51,7 +52,7 @@ class PhoneInputScreen extends StatelessWidget {
 
           _buildSocialButton(
             leadingIcon: Icon(Icons.phone_android_sharp, color: Colors.white),
-            text: "Moble Number",
+            text: AppText.mobleNumber,
             onPressed: () async {
               Get.bottomSheet(
                 LoginBottomSheet(),
@@ -65,7 +66,7 @@ class PhoneInputScreen extends StatelessWidget {
           SizedBox(height: 20),
           _buildSocialButton(
             leadingIcon: SvgPicture.asset(AppSvg.google, width: 24, height: 24),
-            text: AppStrings.signInWithGoogle,
+            text: AppText.signInWithGoogle,
             onPressed: () async {
               try {
                 context.loaderOverlay.show();
@@ -83,29 +84,29 @@ class PhoneInputScreen extends StatelessWidget {
             child: Text.rich(
               textAlign: TextAlign.center,
               TextSpan(
-                text: "By continuing, you agree to our ",
+                text: AppText.byContinuingYouAgreeToOur,
                 style: TextStyle(color: AppColors.grey, fontSize: 12),
                 children: [
                   TextSpan(
-                    text: "Terms of Service",
+                    text: AppText.termsOfService,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () =>
-                          Helpers.launchURL(AppStrings.termsOfService),
+                          Helpers.launchURL(AppText.termsOfService),
                   ),
-                  const TextSpan(text: " and "),
+                  const TextSpan(text: AppText.and),
                   TextSpan(
-                    text: "Privacy Policy",
+                    text: AppText.privacyPolicy,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () =>
-                          Helpers.launchURL(AppStrings.privacyPolicy),
+                          Helpers.launchURL(AppText.privacyPolicy),
                   ),
                 ],
               ),

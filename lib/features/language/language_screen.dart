@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
@@ -104,7 +105,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
               horizontal: 16.0,
               vertical: 16.0,
             ),
-            child: AppButton(text: 'Confirm', onPressed: () {}),
+            child: AppButton(text: AppText.confirm, onPressed: () {}),
           ),
         ],
       ),

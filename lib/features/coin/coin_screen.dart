@@ -1,4 +1,5 @@
-// import 'dart:ui';
+// import 'package:voicly/core/constants/app_text.dart';
+import 'dart:ui';
 //
 // import 'package:core/core.dart';
 // import 'package:flutter/material.dart';
@@ -279,7 +280,7 @@
 //                               ? SizedBox.shrink()
 //                               : AppButton(
 //                                   width: MediaQuery.sizeOf(context).width / 2,
-//                                   text: 'Purchase Now',
+//                                   text: AppText.purchaseNow,
 //                                   onPressed: () {
 //                                     final paymentCtr = Get.put(
 //                                       PaymentController(),
@@ -476,7 +477,7 @@ class CoinScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Current Balance",
+                      AppText.currentBalance,
                       style: TextStyle(
                         color: Colors.white70,
                         fontSize: 14.sp,
@@ -494,7 +495,7 @@ class CoinScreen extends StatelessWidget {
                       );
                     }),
                     Text(
-                      "View transaction history ->",
+                      AppText.viewTransactionHistory,
                       style: TextStyle(
                         fontSize: 12.sp, // 🟢 Scaled
                         fontWeight: FontWeight.bold,
@@ -586,7 +587,7 @@ class CoinScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              "Total Payable",
+                              AppText.totalPayable,
                               style: TextStyle(
                                 color: Colors.white54,
                                 fontSize: 12.sp, // 🟢 Scaled
@@ -617,7 +618,7 @@ class CoinScreen extends StatelessWidget {
                               : AppButton(
                                   // MediaQuery is naturally responsive, so we can leave it or wrap it in .w
                                   width: MediaQuery.sizeOf(context).width / 2,
-                                  text: 'Purchase Now',
+                                  text: AppText.purchaseNow,
                                   onPressed: () {
                                     final paymentCtr = Get.put(
                                       PaymentController(),

@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:core/core.dart';
 import 'package:core/widget/widget_wrapper.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +117,7 @@ class ProfileSheet extends StatelessWidget {
           child: Opacity(
             opacity: 0.6,
             child: AppButton(
-              text: 'Video',
+              text: AppText.video,
               onPressed: null,
               icon: Icons.videocam_rounded,
             ),
@@ -125,7 +126,7 @@ class ProfileSheet extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: AppButton(
-            text: "Audio",
+            text: AppText.audio,
             onPressed: () {},
             icon: Icons.call_rounded,
           ),
@@ -142,14 +143,14 @@ class ProfileSheet extends StatelessWidget {
           onPressed: () {},
           icon: const Icon(Icons.report, color: Colors.redAccent),
           label: const Text(
-            "Report",
+            AppText.report,
             style: TextStyle(color: Colors.redAccent),
           ),
         ),
         TextButton.icon(
           onPressed: () {},
           icon: const Icon(Icons.share, color: Colors.blueGrey),
-          label: const Text("Share", style: TextStyle(color: Colors.blueGrey)),
+          label: const Text(AppText.share, style: TextStyle(color: Colors.blueGrey)),
         ),
       ],
     );

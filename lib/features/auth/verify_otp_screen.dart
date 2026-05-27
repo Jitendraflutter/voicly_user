@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -50,7 +51,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
             // 🔹 Header
             Text(
-              "Verify OTP",
+              AppText.verifyOtp,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 28.sp,
@@ -125,7 +126,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           ),
                         )
                       : Text(
-                          "Verify & Proceed",
+                          AppText.verifyProceed,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.sp,
@@ -147,7 +148,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     authCtrl.verifyPhoneNumber(widget.phoneNumber);
                   },
                   child: Text(
-                    "Resend Code",
+                    AppText.resendCode,
                     style: TextStyle(
                       color: AppColors.primaryPeach,
                       fontSize: 16.sp,

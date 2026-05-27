@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:voicly/features/auth/widget/base_layout.dart';
 import 'package:core/core.dart';
@@ -18,11 +19,11 @@ class OTPScreen extends StatelessWidget {
             children: List.generate(4, (index) => _otpBox()),
           ),
           const SizedBox(height: 40),
-          AppButton(text: "Verify", onPressed: onNext),
+          AppButton(text: AppText.verify, onPressed: onNext),
           TextButton(
             onPressed: () {},
             child: const Text(
-              "Resend Code",
+              AppText.resendCode,
               style: TextStyle(color: AppColors.primaryPurple),
             ),
           ),

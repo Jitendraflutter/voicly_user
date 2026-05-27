@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -34,7 +35,7 @@ class DeleteAccountSheet extends StatelessWidget {
             ),
 
             const Text(
-              "Delete Account?",
+              AppText.deleteAccount,
               style: TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
@@ -43,7 +44,7 @@ class DeleteAccountSheet extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             const Text(
-              "This action is irreversible. All your photos, messages, and credits will be permanently removed from our servers.",
+              AppText.thisActionIsIrreversibleAllYourPhotosMessagesAndCreditsWillBePermanentlyRemovedFromOurServers,
               style: TextStyle(
                 fontSize: 14,
                 color: Color(0xFF757575), // Hardcoded Medium Grey
@@ -60,7 +61,7 @@ class DeleteAccountSheet extends StatelessWidget {
                 border: Border.all(color: const Color(0xFFEF5350)),
               ),
               child: const Text(
-                "Note: Deleting your account will also cancel your Pro subscription immediately.",
+                AppText.noteDeletingYourAccountWillAlsoCancelYourProSubscriptionImmediately,
                 style: TextStyle(color: Color(0xFFC62828), fontSize: 13),
               ),
             ),
@@ -78,7 +79,7 @@ class DeleteAccountSheet extends StatelessWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: const Text(
-                      "Cancel",
+                      AppText.cancel,
                       style: TextStyle(color: Color(0xFF424242)),
                     ),
                   ),
@@ -103,7 +104,7 @@ class DeleteAccountSheet extends StatelessWidget {
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
                     child: const Text(
-                      "Delete",
+                      AppText.delete1,
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),

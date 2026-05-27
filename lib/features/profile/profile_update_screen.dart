@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -47,7 +48,7 @@ class ProfileUpdateScreen extends StatelessWidget {
 
             Obx(
               () => AppButton(
-                text: 'Save Changes',
+                text: AppText.saveChanges,
                 onPressed: controller.isLoading.value
                     ? null
                     : () => controller.updateProfile(),
@@ -156,7 +157,7 @@ Widget _buildGenderSelection(RxString selectedGender) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text("Gender", style: TextStyle(color: Colors.white54, fontSize: 14)),
+      Text(AppText.gender, style: TextStyle(color: Colors.white54, fontSize: 14)),
       SizedBox(height: 10),
       Row(
         children: [
