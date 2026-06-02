@@ -95,9 +95,9 @@ class MatchDialog {
                       const SizedBox(height: 15),
                       TextButton(
                         onPressed: () => Get.back(),
-                        child: const Text(
-                          AppText.cancel,
-                          style: TextStyle(color: Colors.white60),
+                        child: Text(
+                          AppText.cancel.tr,
+                          style: const TextStyle(color: Colors.white60),
                         ),
                       ),
                     ],

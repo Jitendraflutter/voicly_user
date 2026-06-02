@@ -15,7 +15,7 @@ class TransactionHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenWrapper(
-      title: "Transaction History",
+      title: AppText.transactionHistory.tr,
       visibleAppBar: true,
 
       child: Obx(() {
@@ -26,7 +26,7 @@ class TransactionHistoryScreen extends StatelessWidget {
         if (controller.transactions.isEmpty) {
           return Center(
             child: Text(
-              AppText.noTransactionsFound,
+              AppText.noTransactionsFound.tr,
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           );

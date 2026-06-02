@@ -53,7 +53,7 @@ class LogoutModal extends StatelessWidget {
 
           // 2. Title
           Text(
-            AppText.areYouSureYouWantToLogoutFromYourAccount,
+            AppText.areYouSureYouWantToLogoutFromYourAccount.tr,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -64,7 +64,7 @@ class LogoutModal extends StatelessWidget {
           SizedBox(height: 30),
 
           AppButton(
-            text: AppText.logout,
+            text: AppText.logout.tr,
             icon: CupertinoIcons.square_arrow_right,
             onPressed: () {
               LocalStorage.clearLogInSession();

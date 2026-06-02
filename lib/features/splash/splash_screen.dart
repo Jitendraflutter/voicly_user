@@ -133,9 +133,9 @@ class SplashScreen extends GetView<SplashController> {
                   children: [
                     Image.asset(AppAssets.logo, height: 120, width: 120),
                     const SizedBox(height: 24),
-                    const Text(
-                      AppText.voicly,
-                      style: TextStyle(
+                    Text(
+                      AppText.voicly.tr,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -143,9 +143,9 @@ class SplashScreen extends GetView<SplashController> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const Text(
-                      AppText.becauseEveryVoiceHasAStory,
-                      style: TextStyle(
+                    Text(
+                      AppText.becauseEveryVoiceHasAStory.tr,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,

@@ -51,7 +51,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
 
             // 🔹 Header
             Text(
-              AppText.verifyOtp,
+              AppText.verifyOtp.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 28.sp,
@@ -126,7 +126,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                           ),
                         )
                       : Text(
-                          AppText.verifyProceed,
+                          AppText.verifyProceed.tr,
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16.sp,
@@ -148,7 +148,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                     authCtrl.verifyPhoneNumber(widget.phoneNumber);
                   },
                   child: Text(
-                    AppText.resendCode,
+                    AppText.resendCode.tr,
                     style: TextStyle(
                       color: AppColors.primaryPeach,
                       fontSize: 16.sp,

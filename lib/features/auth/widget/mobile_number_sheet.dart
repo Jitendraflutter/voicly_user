@@ -69,7 +69,7 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
 
           // 🔹 Title & Subtitle
           Text(
-            AppText.welcomeToVoicly,
+            AppText.welcomeToVoicly.tr,
             style: TextStyle(
               color: Colors.white,
               fontSize: 22.sp,
@@ -78,7 +78,7 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
           ),
           SizedBox(height: 8.h),
           Text(
-            AppText.enterYourMobileNumberToContinueWeWillSendYouAnOtpToVerify,
+            AppText.enterYourMobileNumberToContinueWeWillSendYouAnOtpToVerify.tr,
             style: TextStyle(color: Colors.white70, fontSize: 14.sp),
           ),
           SizedBox(height: 30.h),
@@ -96,7 +96,7 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Text(
-                    AppText.plus91,
+                    AppText.plus91.tr,
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 18.sp,
@@ -119,7 +119,7 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
                       ), // Limit to 10 digits
                     ],
                     decoration: InputDecoration(
-                      hintText: AppText.mobileNumber,
+                      hintText: AppText.mobileNumber.tr,
                       hintStyle: TextStyle(
                         color: Colors.white38,
                         fontSize: 16.sp,
@@ -174,7 +174,7 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
                         ),
                       )
                     : Text(
-                        AppText.sendOtp,
+                        AppText.sendOtp.tr,
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16.sp,

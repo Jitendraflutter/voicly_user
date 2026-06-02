@@ -117,7 +117,7 @@ class ProfileSheet extends StatelessWidget {
           child: Opacity(
             opacity: 0.6,
             child: AppButton(
-              text: AppText.video,
+              text: AppText.video.tr,
               onPressed: null,
               icon: Icons.videocam_rounded,
             ),
@@ -126,7 +126,7 @@ class ProfileSheet extends StatelessWidget {
         const SizedBox(width: 10),
         Expanded(
           child: AppButton(
-            text: AppText.audio,
+            text: AppText.audio.tr,
             onPressed: () {},
             icon: Icons.call_rounded,
           ),
@@ -142,15 +142,15 @@ class ProfileSheet extends StatelessWidget {
         TextButton.icon(
           onPressed: () {},
           icon: const Icon(Icons.report, color: Colors.redAccent),
-          label: const Text(
-            AppText.report,
-            style: TextStyle(color: Colors.redAccent),
+          label: Text(
+            AppText.report.tr,
+            style: const TextStyle(color: Colors.redAccent),
           ),
         ),
         TextButton.icon(
           onPressed: () {},
           icon: const Icon(Icons.share, color: Colors.blueGrey),
-          label: const Text(AppText.share, style: TextStyle(color: Colors.blueGrey)),
+          label: Text(AppText.share.tr, style: const TextStyle(color: Colors.blueGrey)),
         ),
       ],
     );

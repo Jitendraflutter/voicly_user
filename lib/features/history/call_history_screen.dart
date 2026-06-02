@@ -22,7 +22,7 @@ class CallHistoryScreen extends StatelessWidget {
 
     return ScreenWrapper(
       visibleAppBar: true,
-      title: "Call History",
+      title: AppText.callHistory.tr,
       child: Obx(() {
         if (controller.isInitialLoading.value) {
           return const Center(
@@ -32,7 +32,7 @@ class CallHistoryScreen extends StatelessWidget {
         if (controller.callLogs.isEmpty) {
           return Center(
             child: Text(
-              AppText.noCallsYet,
+              AppText.noCallsYet.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,

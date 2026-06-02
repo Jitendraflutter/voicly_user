@@ -23,7 +23,7 @@ class CoinScreen extends StatelessWidget {
 
     return ScreenWrapper(
       visibleAppBar: true,
-      title: "Voicly Points Store",
+      title: AppText.voiclyPointsStore.tr,
       child: Stack(
         children: [
           Obx(
@@ -153,7 +153,7 @@ class CoinScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      AppText.currentBalance,
+                      AppText.currentBalance.tr,
                       style: TextStyle(
                         color: Colors.white70,
                         fontSize: 14.sp,
@@ -171,7 +171,7 @@ class CoinScreen extends StatelessWidget {
                       );
                     }),
                     Text(
-                      AppText.viewTransactionHistory,
+                      AppText.viewTransactionHistory.tr,
                       style: TextStyle(
                         fontSize: 12.sp, // 🟢 Scaled
                         fontWeight: FontWeight.bold,
@@ -263,7 +263,7 @@ class CoinScreen extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              AppText.totalPayable,
+                              AppText.totalPayable.tr,
                               style: TextStyle(
                                 color: Colors.white54,
                                 fontSize: 12.sp, // 🟢 Scaled
@@ -294,7 +294,7 @@ class CoinScreen extends StatelessWidget {
                               : AppButton(
                                   // MediaQuery is naturally responsive, so we can leave it or wrap it in .w
                                   width: MediaQuery.sizeOf(context).width / 2,
-                                  text: AppText.purchaseNow,
+                                  text: AppText.purchaseNow.tr,
                                   onPressed: () {
                                     final paymentCtr = Get.put(
                                       PaymentController(),

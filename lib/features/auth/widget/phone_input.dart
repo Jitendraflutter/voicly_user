@@ -22,8 +22,8 @@ class PhoneInputScreen extends StatelessWidget {
     final controller = Get.find<LoginController>();
 
     return BaseAuthLayout(
-      title: "Let's Get Started!", // More energetic title
-      subtitle: "Join our community and start your journey with just one tap.",
+      title: AppText.letsGetStarted.tr,
+      subtitle: AppText.joinOurCommunity.tr,
       child: Column(
         children: [
           const SizedBox(height: 20),
@@ -42,17 +42,17 @@ class PhoneInputScreen extends StatelessWidget {
           const SizedBox(height: 40),
 
           // Enhanced description text
-          const Text(
-            AppText.experienceSeamlessAccessToYourAccountNoPasswordsNoWaitingjustSecureAndFastAuthentication,
+          Text(
+            AppText.experienceSeamlessAccessToYourAccountNoPasswordsNoWaitingjustSecureAndFastAuthentication.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: AppColors.grey, height: 1.5),
+            style: const TextStyle(fontSize: 14, color: AppColors.grey, height: 1.5),
           ),
 
           const SizedBox(height: 40),
 
           _buildSocialButton(
             leadingIcon: Icon(Icons.phone_android_sharp, color: Colors.white),
-            text: AppText.mobleNumber,
+            text: AppText.mobleNumber.tr,
             onPressed: () async {
               Get.bottomSheet(
                 LoginBottomSheet(),
@@ -66,7 +66,7 @@ class PhoneInputScreen extends StatelessWidget {
           SizedBox(height: 20),
           _buildSocialButton(
             leadingIcon: SvgPicture.asset(AppSvg.google, width: 24, height: 24),
-            text: AppStrings.signInWithGoogle,
+            text: AppText.signInWithGoogle.tr,
             onPressed: () async {
               try {
                 context.loaderOverlay.show();
@@ -84,11 +84,11 @@ class PhoneInputScreen extends StatelessWidget {
             child: Text.rich(
               textAlign: TextAlign.center,
               TextSpan(
-                text: AppText.byContinuingYouAgreeToOur,
-                style: TextStyle(color: AppColors.grey, fontSize: 12),
+                text: AppText.byContinuingYouAgreeToOur.tr,
+                style: const TextStyle(color: AppColors.grey, fontSize: 12),
                 children: [
                   TextSpan(
-                    text: AppText.termsOfService,
+                    text: AppText.termsOfService.tr,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
@@ -97,9 +97,9 @@ class PhoneInputScreen extends StatelessWidget {
                       ..onTap = () =>
                           Helpers.launchURL(AppText.termsOfService),
                   ),
-                  const TextSpan(text: AppText.and),
+                  TextSpan(text: AppText.and.tr),
                   TextSpan(
-                    text: AppText.privacyPolicy,
+                    text: AppText.privacyPolicy.tr,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,

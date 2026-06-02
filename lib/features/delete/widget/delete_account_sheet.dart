@@ -1,6 +1,6 @@
-import 'package:voicly/core/constants/app_text.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:voicly/core/constants/app_text.dart';
 
 class DeleteAccountSheet extends StatelessWidget {
   const DeleteAccountSheet({super.key});
@@ -34,18 +34,18 @@ class DeleteAccountSheet extends StatelessWidget {
               ),
             ),
 
-            const Text(
-              AppText.deleteAccount,
-              style: TextStyle(
+            Text(
+              AppText.deleteAccount.tr,
+              style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
                 color: Color(0xFF212121), // Hardcoded Dark Grey
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
-              AppText.thisActionIsIrreversibleAllYourPhotosMessagesAndCreditsWillBePermanentlyRemovedFromOurServers,
-              style: TextStyle(
+            Text(
+              AppText.thisActionIsIrreversibleAllYourPhotosMessagesAndCreditsWillBePermanentlyRemovedFromOurServers.tr,
+              style: const TextStyle(
                 fontSize: 14,
                 color: Color(0xFF757575), // Hardcoded Medium Grey
               ),
@@ -60,9 +60,9 @@ class DeleteAccountSheet extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
                 border: Border.all(color: const Color(0xFFEF5350)),
               ),
-              child: const Text(
-                AppText.noteDeletingYourAccountWillAlsoCancelYourProSubscriptionImmediately,
-                style: TextStyle(color: Color(0xFFC62828), fontSize: 13),
+              child: Text(
+                AppText.noteDeletingYourAccountWillAlsoCancelYourProSubscriptionImmediately.tr,
+                style: const TextStyle(color: Color(0xFFC62828), fontSize: 13),
               ),
             ),
             const SizedBox(height: 32),
@@ -78,9 +78,9 @@ class DeleteAccountSheet extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
-                    child: const Text(
-                      AppText.cancel,
-                      style: TextStyle(color: Color(0xFF424242)),
+                    child: Text(
+                      AppText.cancel.tr,
+                      style: const TextStyle(color: Color(0xFF424242)),
                     ),
                   ),
                 ),
@@ -103,9 +103,9 @@ class DeleteAccountSheet extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     ),
-                    child: const Text(
-                      AppText.delete1,
-                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+                    child: Text(
+                      AppText.delete1.tr,
+                      style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                     ),
                   ),
                 ),

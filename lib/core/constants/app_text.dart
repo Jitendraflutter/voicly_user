@@ -54,4 +54,57 @@ class AppText {
   static const String voicly = 'Voicly';
   static const String welcomeToVoicly = 'Welcome to Voicly';
   static const String whyAreYouLeaving = 'Why are you leaving?';
+  static const String selectLanguage = 'Select Language';
+  static const String exitApp = 'Exit App';
+  static const String exitAppConfirmMessage = 'Are you sure you want to exit Voicly?';
+  static const String stayOnApp = 'Stay';
+
+  // Auth
+  static const String letsGetStarted = "Let's Get Started!";
+  static const String joinOurCommunity = 'Join our community and start your journey with just one tap.';
+  static const String signInWithGoogle = 'Sign in with Google';
+  static const String verifyPhone = 'Verify Phone';
+  static const String weveSentCode = "We've sent a 4-digit code to your number";
+  static const String aboutYou = 'About You';
+  static const String helpUsKnowYou = 'Help us get to know you better';
+  static const String fullName = 'Full Name';
+  static const String dateOfBirth = 'Date of Birth';
+
+  // Home
+  static const String yourCompanions = 'Your Companions';
+  static const String userCurrentlyOffline = 'The user is currently offline';
+  static const String userCurrentlyBusy = 'The user is currently Busy';
+  static const String videoCallsDisabled = 'This user has disabled video calls';
+
+  // Screen titles
+  static const String voiclyPointsStore = 'Voicly Points Store';
+  static const String transactionHistory = 'Transaction History';
+  static const String profileUpdate = 'Profile Update';
+  static const String callHistory = 'Call History';
+
+  // Gender
+  static const String male = 'Male';
+  static const String female = 'Female';
+
+  // Profile screen sections & tiles
+  static const String profileSection = 'Profile';
+  static const String manageProfile = 'Manage Profile';
+  static const String manageRestrictions = 'Manage restrictions';
+  static const String preferences = 'Preferences';
+  static const String language = 'Language';
+  static const String appLanguageSettings = 'App language settings';
+  static const String legal = 'Legal';
+  static const String dataUsageSafety = 'Data usage & safety';
+  static const String termsAndConditions = 'Terms & Conditions';
+  static const String legalAgreements = 'Legal agreements';
+  static const String communityGuidelines = 'Community Guidelines';
+  static const String rulesAndStandards = 'Rules & Standards';
+  static const String support = 'Support';
+  static const String supportCenter = 'Support Center';
+  static const String getHelpContactUs = 'Get help & contact us';
+  static const String becomeCaller = 'Become Caller';
+  static const String startEarningCaller = 'Start earning by joining our caller program';
+  static const String account = 'Account';
+  static const String permanentlyRemoveAccount = 'Permanently remove your account';
+  static const String signOutOfAccount = 'Sign out of your account';
 }

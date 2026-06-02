@@ -1,8 +1,9 @@
-import 'package:voicly/core/constants/app_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:core/core.dart';
 import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
 
@@ -13,7 +14,7 @@ class BlockedUsersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenWrapper(
       visibleAppBar: true,
-      title: "Blocked Users",
+      title: AppText.blockedUser.tr,
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         itemCount: 5, // Hardcoded value
@@ -36,7 +37,7 @@ class BlockedUsersScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        AppText.blockedUser,
+                        AppText.blockedUser.tr,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           color: AppColors.onBackground,
@@ -46,7 +47,7 @@ class BlockedUsersScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        AppText.blockedOn12Feb2026,
+                        AppText.blockedOn12Feb2026.tr,
                         style: TextStyle(
                           fontSize: 13,
                           color: AppColors.onBackground.withValues(alpha:0.6),
@@ -67,9 +68,9 @@ class BlockedUsersScreen extends StatelessWidget {
                   onPressed: () {
                     // Logic to unblock
                   },
-                  child: const Text(
-                    AppText.unblock,
-                    style: TextStyle(
+                  child: Text(
+                    AppText.unblock.tr,
+                    style: const TextStyle(
                       color: Colors.redAccent,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,
