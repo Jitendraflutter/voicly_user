@@ -30,6 +30,12 @@ jobs:
       - name: Decode Keystore
         run: |
           echo "${{ secrets.KEYSTORE_BASE64 }}" | base64 --decode > android/app/voicly.jks
+      - name: Verify Alias
+        run: |
+          keytool -list -v \
+            -keystore android/app/voicly.jks \
+            -alias "${{ secrets.KEY_ALIAS }}" \
+            -storepass "${{ secrets.KEYSTORE_PASSWORD }}"    
 
       - name: Create key.properties
         run: |
