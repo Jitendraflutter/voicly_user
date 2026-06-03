@@ -1,14 +1,11 @@
-import 'package:core/constants/app_colors.dart';
 import 'package:core/constants/app_strings.dart';
+import 'package:voicly/core/constants/app_text.dart';
+import 'package:core/constants/app_colors.dart';
 import 'package:core/utils/helpers.dart';
 import 'package:core/widget/app_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_core/src/get_main.dart';
-import 'package:get/get_instance/src/extension_instance.dart';
-import 'package:get/get_navigation/src/extension_navigation.dart';
-import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
-
+import 'package:get/get.dart';
 import '../../controller/delete_account_controller.dart';
 import '../../widget/screen_wrapper.dart';
 
@@ -62,7 +59,7 @@ class DeleteAccountScreen extends StatelessWidget {
 
               // 2. Dynamic Reason Selection
               Text(
-                "Why are you leaving?",
+                AppText.whyAreYouLeaving.tr,
                 style: TextStyle(color: AppColors.onBackground),
               ),
               ...controller.reasons.map(
@@ -83,7 +80,7 @@ class DeleteAccountScreen extends StatelessWidget {
 
               // 3. Manual Confirmation
               Text(
-                "Type 'DELETE' to confirm:",
+                AppText.typeDeleteToConfirm.tr,
                 style: TextStyle(color: AppColors.grey),
               ),
               const SizedBox(height: 12),
@@ -93,14 +90,14 @@ class DeleteAccountScreen extends StatelessWidget {
                     controller.isConfirmEnabled.value = (val == "DELETE"),
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  hintText: "DELETE",
+                  hintText: AppText.delete.tr,
                   hintStyle: TextStyle(color: Colors.grey.shade400),
                 ),
               ),
               const SizedBox(height: 32),
 
               // 4. Action Buttons
-              AppButton(onPressed: () => Get.back(), text: 'Keep My Account'),
+              AppButton(onPressed: () => Get.back(), text: AppText.keepMyAccount.tr),
               const SizedBox(height: 12),
               SizedBox(
                 width: double.infinity,
@@ -114,7 +111,7 @@ class DeleteAccountScreen extends StatelessWidget {
                         }
                       : null,
                   style: TextButton.styleFrom(foregroundColor: Colors.red),
-                  child: const Text("Permanently Delete My Data"),
+                  child: Text(AppText.permanentlyDeleteMyData.tr),
                 ),
               ),
               Padding(
@@ -123,11 +120,11 @@ class DeleteAccountScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   TextSpan(
                     text:
-                        "By continuing, you confirm that you understand and agree to our ",
+                        AppText.byContinuingYouConfirmThatYouUnderstandAndAgreeToOur.tr,
                     style: TextStyle(color: AppColors.grey, fontSize: 12),
                     children: [
                       TextSpan(
-                        text: "Account Deletion Policy",
+                        text: AppText.accountDeletionPolicy.tr,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           color: AppColors.primaryPeach,
@@ -136,7 +133,7 @@ class DeleteAccountScreen extends StatelessWidget {
                           ..onTap = () =>
                               Helpers.launchURL(AppStrings.accountDeletion),
                       ),
-                      const TextSpan(text: "."),
+                      TextSpan(text: AppText.emptyString.tr),
                     ],
                   ),
                 ),

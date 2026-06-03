@@ -1,5 +1,7 @@
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:core/core.dart';
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
 class BecomeCallerScreen extends StatelessWidget {
@@ -22,10 +24,10 @@ class BecomeCallerScreen extends StatelessWidget {
                   AppColors.vibrantSunsetColor.createShader(
                     Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                   ),
-              child: const Text(
-                'Become a Caller on Voicly',
+              child: Text(
+                AppText.becomeACallerOnVoicly.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 34,
                   fontWeight: FontWeight.w900,
                   color: AppColors.onBackground, // Required for ShaderMask
@@ -36,7 +38,7 @@ class BecomeCallerScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             Text(
-              'Earn by talking with new people. Join Voicly as a caller and start connecting with users through voice conversations anytime.',
+              AppText.earnByTalkingWithNewPeopleJoinVoiclyAsACallerAndStartConnectingWithUsersThroughVoiceConversationsAnytime.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.6),
@@ -88,7 +90,7 @@ class BecomeCallerScreen extends StatelessWidget {
             const SizedBox(height: 40),
 
             AppButton(
-              text: 'Apply Now',
+              text: AppText.applyNow.tr,
               onPressed: () {
                 warningSnack('This feature is coming soon! Stay tuned.');
               },

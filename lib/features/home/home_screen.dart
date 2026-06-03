@@ -7,10 +7,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart'; // 🟢 Added impor
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/home_controller.dart';
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:voicly/controller/popup_controller.dart';
 import 'package:voicly/core/constant/app_assets.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/features/home/widget/animate_pulse_widget.dart';
+import 'package:voicly/features/home/widget/exit_confirm_sheet.dart';
 import 'package:voicly/features/home/widget/match_dialog.dart';
 import 'package:voicly/features/home/widget/profile_sheet.dart';
 import 'package:voicly/model/caller_model.dart';
@@ -45,8 +47,13 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenWrapper(
-      child: CustomScrollView(
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) ExitConfirmSheet.show();
+      },
+      child: ScreenWrapper(
+        child: CustomScrollView(
         physics: const BouncingScrollPhysics(),
         slivers: [
           SliverAppBar(
@@ -96,11 +103,12 @@ class _HomeScreenState extends State<HomeScreen> {
             );
           }),
 
-          _buildHistoryButton("Your Companions"),
+          _buildHistoryButton(AppText.yourCompanions.tr),
 
           Obx(() => _buildListView(_controller.callers)),
           SliverToBoxAdapter(child: SizedBox(height: 100.h)),
         ],
+        ),
       ),
     );
   }
@@ -263,13 +271,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: caller.isOnline == false
                           ? () {
                               Fluttertoast.showToast(
-                                msg: "The user is currently offline",
+                                msg: AppText.userCurrentlyOffline.tr,
                               );
                             }
                           : () {
                               if (caller.callStatus == "active") {
                                 Fluttertoast.showToast(
-                                  msg: "The user is currently Busy",
+                                  msg: AppText.userCurrentlyBusy.tr,
                                 );
                                 return;
                               }
@@ -287,19 +295,19 @@ class _HomeScreenState extends State<HomeScreen> {
                       onTap: () {
                         if (caller.isOnline == false) {
                           Fluttertoast.showToast(
-                            msg: "The user is currently offline",
+                            msg: AppText.userCurrentlyOffline.tr,
                           );
                           return;
                         }
                         if (caller.isVideoEnable == false) {
                           Fluttertoast.showToast(
-                            msg: "This user has disabled video calls",
+                            msg: AppText.videoCallsDisabled.tr,
                           );
                           return;
                         }
                         if (caller.callStatus == "active") {
                           Fluttertoast.showToast(
-                            msg: "The user is currently Busy",
+                            msg: AppText.userCurrentlyBusy.tr,
                           );
                           return;
                         }

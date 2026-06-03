@@ -1,5 +1,7 @@
-import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:core/core.dart';
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
 class SupportScreen extends StatelessWidget {
@@ -18,7 +20,7 @@ class SupportScreen extends StatelessWidget {
           children: [
             // --- Header Message ---
             Text(
-              'How can we help?',
+              AppText.howCanWeHelp.tr,
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
@@ -27,7 +29,7 @@ class SupportScreen extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Select a way to connect with our team.',
+              AppText.selectAWayToConnectWithOurTeam.tr,
               style: TextStyle(
                 color: Colors.white.withValues(alpha: 0.5),
                 fontSize: 15,

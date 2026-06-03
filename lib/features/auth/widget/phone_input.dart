@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
@@ -21,8 +22,8 @@ class PhoneInputScreen extends StatelessWidget {
     final controller = Get.find<LoginController>();
 
     return BaseAuthLayout(
-      title: "Let's Get Started!", // More energetic title
-      subtitle: "Join our community and start your journey with just one tap.",
+      title: AppText.letsGetStarted.tr,
+      subtitle: AppText.joinOurCommunity.tr,
       child: Column(
         children: [
           const SizedBox(height: 20),
@@ -41,17 +42,17 @@ class PhoneInputScreen extends StatelessWidget {
           const SizedBox(height: 40),
 
           // Enhanced description text
-          const Text(
-            "Experience seamless access to your account. No passwords, no waiting—just secure and fast authentication.",
+          Text(
+            AppText.experienceSeamlessAccessToYourAccountNoPasswordsNoWaitingjustSecureAndFastAuthentication.tr,
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 14, color: AppColors.grey, height: 1.5),
+            style: const TextStyle(fontSize: 14, color: AppColors.grey, height: 1.5),
           ),
 
           const SizedBox(height: 40),
 
           _buildSocialButton(
             leadingIcon: Icon(Icons.phone_android_sharp, color: Colors.white),
-            text: "Moble Number",
+            text: AppText.mobleNumber.tr,
             onPressed: () async {
               Get.bottomSheet(
                 LoginBottomSheet(),
@@ -65,7 +66,7 @@ class PhoneInputScreen extends StatelessWidget {
           SizedBox(height: 20),
           _buildSocialButton(
             leadingIcon: SvgPicture.asset(AppSvg.google, width: 24, height: 24),
-            text: AppStrings.signInWithGoogle,
+            text: AppText.signInWithGoogle.tr,
             onPressed: () async {
               try {
                 context.loaderOverlay.show();
@@ -83,29 +84,29 @@ class PhoneInputScreen extends StatelessWidget {
             child: Text.rich(
               textAlign: TextAlign.center,
               TextSpan(
-                text: "By continuing, you agree to our ",
-                style: TextStyle(color: AppColors.grey, fontSize: 12),
+                text: AppText.byContinuingYouAgreeToOur.tr,
+                style: const TextStyle(color: AppColors.grey, fontSize: 12),
                 children: [
                   TextSpan(
-                    text: "Terms of Service",
+                    text: AppText.termsOfService.tr,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () =>
-                          Helpers.launchURL(AppStrings.termsOfService),
+                          Helpers.launchURL(AppText.termsOfService),
                   ),
-                  const TextSpan(text: " and "),
+                  TextSpan(text: AppText.and.tr),
                   TextSpan(
-                    text: "Privacy Policy",
+                    text: AppText.privacyPolicy.tr,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                       color: AppColors.primary,
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () =>
-                          Helpers.launchURL(AppStrings.privacyPolicy),
+                          Helpers.launchURL(AppText.privacyPolicy),
                   ),
                 ],
               ),

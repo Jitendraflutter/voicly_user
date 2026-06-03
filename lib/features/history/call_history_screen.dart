@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +22,7 @@ class CallHistoryScreen extends StatelessWidget {
 
     return ScreenWrapper(
       visibleAppBar: true,
-      title: "Call History",
+      title: AppText.callHistory.tr,
       child: Obx(() {
         if (controller.isInitialLoading.value) {
           return const Center(
@@ -31,7 +32,7 @@ class CallHistoryScreen extends StatelessWidget {
         if (controller.callLogs.isEmpty) {
           return Center(
             child: Text(
-              "No calls yet",
+              AppText.noCallsYet.tr,
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,

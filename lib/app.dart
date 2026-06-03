@@ -5,8 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import 'controller/language_controller.dart';
 import 'controller/popup_controller.dart';
 import 'core/route/routes.dart';
+import 'core/translations/app_translations.dart';
+import 'core/utils/local_storage.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -40,10 +43,14 @@ class App extends StatelessWidget {
             child: GetMaterialApp(
               debugShowCheckedModeBanner: false,
               defaultTransition: Transition.fadeIn,
+              translations: AppTranslations(),
+              locale: Locale(LocalStorage.getLanguage()),
+              fallbackLocale: const Locale('en', 'US'),
               initialRoute: AppRoutes.getInitialRoute(),
               getPages: AppPages.pages,
               initialBinding: BindingsBuilder(() {
                 Get.put(PopupController());
+                Get.put(LanguageController());
               }),
             ),
           );
