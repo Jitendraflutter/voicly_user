@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:agora_rtc_engine/agora_rtc_engine.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,8 @@ import 'package:flutter_callkit_incoming/flutter_callkit_incoming.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/route/routes.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
+
 import 'caller_overlay_controller.dart';
 
 class CallController extends GetxController {
@@ -20,15 +23,19 @@ class CallController extends GetxController {
 
   // ───── INTERNAL ─────
   late RtcEngine _engine;
-  int agoraRemoteUserId = 0;
+  RxInt agoraRemoteUserId = 0.obs;
   Timer? _timer;
   StreamSubscription? _callStatusSub;
   bool _engineInitialized = false;
   bool _isEndingCall = false;
 
+  // 🟢 NEW: VIDEO OBS ─────
+  var isCameraOn = false.obs;
+  var isFrontCamera =
+      true.obs; // Changed to .obs so UI can react when they join!
+  RtcEngine get engine => _engine;
   static const _channel = MethodChannel('com.voicly.app/call_service');
 
-  // ───── ARGUMENTS ─────
   final CallOverlayController overlayController =
       Get.find<CallOverlayController>();
   final String channelId = Get.arguments['channel_id'];
@@ -38,8 +45,50 @@ class CallController extends GetxController {
   final String callerAvatar = Get.arguments['caller_avatar'] ?? "";
   final String receiverToken = Get.arguments['receiver_token'] ?? "";
   final bool isReceiver = Get.arguments['is_receiver'] ?? false;
-
+  // 🟢 NEW: Determine Call Type
+  final bool isVideoCall = Get.arguments['is_video'] ?? false;
   // ─────────────────────────────────────────────────────────────
+
+  var isLocalUserInPip = true.obs;
+
+  var pipTop = 60.0.obs;
+  var pipRight = 20.0.obs;
+  var isDragging =
+      false.obs; // Tracks if the user's finger is currently on the screen
+
+  // 🟢 The WhatsApp Snap Logic
+  void snapPipToCorner() {
+    double screenWidth = Get.width;
+    double screenHeight = Get.height;
+
+    // Your PiP widget sizes + padding
+    double pipWidth = 110.0;
+    double pipHeight = 150.0;
+    double padding = 20.0;
+    double bottomSafeZone =
+        150.0; // Keeps it above your bottom control buttons!
+
+    // Calculate the exact center point of the PiP widget right now
+    double currentX = screenWidth - pipRight.value - pipWidth;
+    double currentY = pipTop.value;
+    double centerX = currentX + (pipWidth / 2);
+    double centerY = currentY + (pipHeight / 2);
+
+    // 1. Snap Left or Right?
+    if (centerX < screenWidth / 2) {
+      pipRight.value = screenWidth - pipWidth - padding; // Snap to Left
+    } else {
+      pipRight.value = padding; // Snap to Right
+    }
+
+    // 2. Snap Top or Bottom?
+    if (centerY < screenHeight / 2) {
+      pipTop.value = padding + 40; // Snap to Top (40 avoids the status bar)
+    } else {
+      pipTop.value =
+          screenHeight - pipHeight - bottomSafeZone; // Snap to Bottom
+    }
+  }
 
   @override
   void onInit() {
@@ -107,6 +156,14 @@ class CallController extends GetxController {
 
       await _engine.enableAudio();
 
+      // 🟢 NEW: If it's a video call, enable the video module!
+      if (isVideoCall) {
+        await _engine.enableVideo();
+        await _engine.startPreview();
+        isCameraOn.value = true;
+        isSpeaker.value = true;
+        WakelockPlus.enable(); // Video calls usually default to speakerphone
+      }
       await _engine.setClientRole(role: ClientRoleType.clientRoleBroadcaster);
 
       await _engine.setAudioProfile(
@@ -127,8 +184,15 @@ class CallController extends GetxController {
           },
 
           onUserJoined: (connection, remoteUid, elapsed) async {
+            if (isVideoCall) {
+              try {
+                await _engine.setEnableSpeakerphone(true);
+              } catch (e) {
+                debugPrint("Speakerphone sync warning: $e");
+              }
+            }
             FlutterCallkitIncoming.setCallConnected(channelId);
-            agoraRemoteUserId = remoteUid;
+            agoraRemoteUserId.value = remoteUid;
             FlutterRingtonePlayer().stop();
             callStatus.value = "Connected";
             _startTimer();
@@ -160,6 +224,7 @@ class CallController extends GetxController {
               },
 
           onUserOffline: (connection, remoteUid, reason) {
+            agoraRemoteUserId.value = 0;
             endCall();
           },
 
@@ -173,11 +238,13 @@ class CallController extends GetxController {
         token: rtcToken,
         channelId: channelId,
         uid: 0,
-        options: const ChannelMediaOptions(
+        options: ChannelMediaOptions(
           clientRoleType: ClientRoleType.clientRoleBroadcaster,
           channelProfile: ChannelProfileType.channelProfileCommunication,
           publishMicrophoneTrack: true,
           autoSubscribeAudio: true,
+          publishCameraTrack: isVideoCall,
+          autoSubscribeVideo: isVideoCall,
         ),
       );
 
@@ -267,7 +334,13 @@ class CallController extends GetxController {
     } catch (_) {}
 
     Get.delete<CallController>(force: true);
-
+    if (isVideoCall) {
+      if (Get.currentRoute == AppRoutes.VIDEO_CALL_SCREEN) {
+        Get.back(result: "end_call");
+        WakelockPlus.disable();
+      }
+      return;
+    }
     if (Get.currentRoute == AppRoutes.CALL_SCREEN) {
       Get.back(result: "end_call");
     }
@@ -277,14 +350,26 @@ class CallController extends GetxController {
   void returnToCallScreen() {
     overlayController.isMinimized.value = false;
     Get.toNamed(
-      AppRoutes.CALL_SCREEN,
+      isVideoCall ? AppRoutes.VIDEO_CALL_SCREEN : AppRoutes.CALL_SCREEN,
       arguments: {
         'channel_id': channelId,
         'rtc_token': rtcToken,
         'caller_name': callerName,
         'caller_uid': callerUid,
         'caller_avatar': callerAvatar,
+        'is_video': isVideoCall,
       },
     );
+  }
+
+  // 🟢 NEW: VIDEO CONTROLS ─────
+  void toggleCamera() {
+    isCameraOn.value = !isCameraOn.value;
+    _engine.muteLocalVideoStream(!isCameraOn.value);
+  }
+
+  void switchCamera() {
+    isFrontCamera.value = !isFrontCamera.value;
+    _engine.switchCamera();
   }
 }

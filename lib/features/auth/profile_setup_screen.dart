@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:core/core.dart';
+import 'package:voicly/core/constants/app_text.dart';
 import 'widget/base_layout.dart';
 import 'widget/custom_text_field.dart';
 
@@ -10,22 +12,22 @@ class ProfileSetupScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BaseAuthLayout(
-      title: "About You",
-      subtitle: "Help us get to know you better",
+      title: AppText.aboutYou.tr,
+      subtitle: AppText.helpUsKnowYou.tr,
       child: Column(
         children: [
           CustomTextField(
-            hint: "Full Name",
+            hint: AppText.fullName.tr,
             icon: Icons.person_outline_rounded,
           ),
           const SizedBox(height: 20),
           CustomTextField(
-            hint: "Date of Birth",
+            hint: AppText.dateOfBirth.tr,
             icon: Icons.cake_outlined,
             readOnly: true,
           ),
           const SizedBox(height: 40),
-          AppButton(text: "Complete Setup", onPressed: onComplete),
+          AppButton(text: AppText.completeSetup.tr, onPressed: onComplete),
         ],
       ),
     );

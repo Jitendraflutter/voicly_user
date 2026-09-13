@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +16,7 @@ class ProfileUpdateScreen extends StatelessWidget {
     final authService = Get.find<AuthService>();
     return ScreenWrapper(
       visibleAppBar: true,
-      title: "Profile Update",
+      title: AppText.profileUpdate.tr,
       child: SingleChildScrollView(
         padding: EdgeInsets.all(20),
         child: Column(
@@ -47,7 +48,7 @@ class ProfileUpdateScreen extends StatelessWidget {
 
             Obx(
               () => AppButton(
-                text: 'Save Changes',
+                text: AppText.saveChanges.tr,
                 onPressed: controller.isLoading.value
                     ? null
                     : () => controller.updateProfile(),
@@ -100,7 +101,7 @@ Widget _buildDatePickerField(
           width: double.infinity,
           padding: EdgeInsets.symmetric(vertical: 18, horizontal: 15),
           decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.05),
+            color: Colors.white.withValues(alpha:0.05),
             borderRadius: BorderRadius.circular(15),
             border: Border.all(color: Colors.white10),
           ),
@@ -143,7 +144,7 @@ Widget _buildReadOnlyField(String label, String value) {
       labelText: label,
       labelStyle: TextStyle(color: Colors.white54),
       filled: true,
-      fillColor: Colors.white.withOpacity(0.05),
+      fillColor: Colors.white.withValues(alpha:0.05),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,
@@ -156,7 +157,7 @@ Widget _buildGenderSelection(RxString selectedGender) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      Text("Gender", style: TextStyle(color: Colors.white54, fontSize: 14)),
+      Text(AppText.gender.tr, style: const TextStyle(color: Colors.white54, fontSize: 14)),
       SizedBox(height: 10),
       Row(
         children: [
@@ -164,7 +165,7 @@ Widget _buildGenderSelection(RxString selectedGender) {
           Expanded(
             child: Obx(
               () => _genderButton(
-                label: "Male",
+                label: AppText.male.tr,
                 icon: CupertinoIcons.person_fill, // Or your custom asset icon
                 isSelected: selectedGender.value == "Male",
                 onTap: () => selectedGender.value = "Male",
@@ -176,7 +177,7 @@ Widget _buildGenderSelection(RxString selectedGender) {
           Expanded(
             child: Obx(
               () => _genderButton(
-                label: "Female",
+                label: AppText.female.tr,
                 icon: CupertinoIcons.person_2_fill, // Or your custom asset icon
                 isSelected: selectedGender.value == "Female",
                 onTap: () => selectedGender.value = "Female",
@@ -202,7 +203,7 @@ Widget _genderButton({
       padding: EdgeInsets.symmetric(vertical: 18),
       decoration: BoxDecoration(
         // Background stays dark/glassy
-        color: Colors.white.withOpacity(0.05),
+        color: Colors.white.withValues(alpha:0.05),
         borderRadius: BorderRadius.circular(15),
         // Border changes color and width based on selection
         border: Border.all(
@@ -246,7 +247,7 @@ Widget _buildTextField(
       labelText: label,
       labelStyle: TextStyle(color: Colors.white54),
       filled: true,
-      fillColor: Colors.white.withOpacity(0.05),
+      fillColor: Colors.white.withValues(alpha:0.05),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: BorderSide.none,

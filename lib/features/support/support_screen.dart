@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:core/core.dart';
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
 class SupportScreen extends StatelessWidget {
@@ -18,18 +20,18 @@ class SupportScreen extends StatelessWidget {
           children: [
             // --- Header Message ---
             Text(
-              'How can we help?',
+              AppText.howCanWeHelp.tr,
               style: TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
-                color: Colors.white.withOpacity(0.95),
+                color: Colors.white.withValues(alpha: 0.95),
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Select a way to connect with our team.',
+              AppText.selectAWayToConnectWithOurTeam.tr,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.5),
+                color: Colors.white.withValues(alpha: 0.5),
                 fontSize: 15,
               ),
             ),
@@ -107,7 +109,7 @@ class SupportScreen extends StatelessWidget {
             colors: [Color(0xFF1E1C28), Color(0xFF13111A)],
           ),
           borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: Colors.white.withOpacity(0.08)),
+          border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
         ),
         child: Column(
           children: [
@@ -137,7 +139,7 @@ class SupportScreen extends StatelessWidget {
                       Text(
                         subtitle,
                         style: TextStyle(
-                          color: Colors.white.withOpacity(0.6),
+                          color: Colors.white.withValues(alpha: 0.6),
                           fontSize: 14,
                         ),
                       ),
@@ -146,7 +148,7 @@ class SupportScreen extends StatelessWidget {
                 ),
                 Icon(
                   Icons.arrow_forward_ios_rounded,
-                  color: Colors.white.withOpacity(0.2),
+                  color: Colors.white.withValues(alpha: 0.2),
                   size: 16,
                 ),
               ],
@@ -184,9 +186,9 @@ class SupportScreen extends StatelessWidget {
   }) {
     return Container(
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.03),
+        color: Colors.white.withValues(alpha: 0.03),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: Colors.white.withOpacity(0.05)),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.05)),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

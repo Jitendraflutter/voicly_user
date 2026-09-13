@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:core/core.dart';
 import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
 
@@ -12,7 +14,7 @@ class BlockedUsersScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenWrapper(
       visibleAppBar: true,
-      title: "Blocked Users",
+      title: AppText.blockedUser.tr,
       child: ListView.builder(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         itemCount: 5, // Hardcoded value
@@ -25,7 +27,7 @@ class BlockedUsersScreen extends StatelessWidget {
                 CircleAvatar(
                   radius: 28,
                   backgroundImage: NetworkImage(AppAssets.userUrl),
-                  backgroundColor: AppColors.primaryPeach.withOpacity(0.1),
+                  backgroundColor: AppColors.primaryPeach.withValues(alpha:0.1),
                 ),
                 const SizedBox(width: 16),
 
@@ -35,7 +37,7 @@ class BlockedUsersScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Blocked User',
+                        AppText.blockedUser.tr,
                         style: const TextStyle(
                           fontWeight: FontWeight.w600,
                           color: AppColors.onBackground,
@@ -45,10 +47,10 @@ class BlockedUsersScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        "Blocked on 12 Feb 2026",
+                        AppText.blockedOn12Feb2026.tr,
                         style: TextStyle(
                           fontSize: 13,
-                          color: AppColors.onBackground.withOpacity(0.6),
+                          color: AppColors.onBackground.withValues(alpha:0.6),
                         ),
                       ),
                     ],
@@ -61,14 +63,14 @@ class BlockedUsersScreen extends StatelessWidget {
                     horizontal: 16,
                     vertical: 8,
                   ),
-                  color: AppColors.primaryPeach.withOpacity(0.1),
+                  color: AppColors.primaryPeach.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(12),
                   onPressed: () {
                     // Logic to unblock
                   },
-                  child: const Text(
-                    "Unblock",
-                    style: TextStyle(
+                  child: Text(
+                    AppText.unblock.tr,
+                    style: const TextStyle(
                       color: Colors.redAccent,
                       fontSize: 14,
                       fontWeight: FontWeight.bold,

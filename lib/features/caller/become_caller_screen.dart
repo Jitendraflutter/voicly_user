@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:core/core.dart';
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
 
 class BecomeCallerScreen extends StatelessWidget {
@@ -22,10 +24,10 @@ class BecomeCallerScreen extends StatelessWidget {
                   AppColors.vibrantSunsetColor.createShader(
                     Rect.fromLTWH(0, 0, bounds.width, bounds.height),
                   ),
-              child: const Text(
-                'Become a Caller on Voicly',
+              child: Text(
+                AppText.becomeACallerOnVoicly.tr,
                 textAlign: TextAlign.center,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 34,
                   fontWeight: FontWeight.w900,
                   color: AppColors.onBackground, // Required for ShaderMask
@@ -36,10 +38,10 @@ class BecomeCallerScreen extends StatelessWidget {
             const SizedBox(height: 16),
 
             Text(
-              'Earn by talking with new people. Join Voicly as a caller and start connecting with users through voice conversations anytime.',
+              AppText.earnByTalkingWithNewPeopleJoinVoiclyAsACallerAndStartConnectingWithUsersThroughVoiceConversationsAnytime.tr,
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: Colors.white.withOpacity(0.6),
+                color: Colors.white.withValues(alpha: 0.6),
                 fontSize: 16,
                 height: 1.5,
               ),
@@ -50,9 +52,9 @@ class BecomeCallerScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.03),
+                color: Colors.white.withValues(alpha: 0.03),
                 borderRadius: BorderRadius.circular(28),
-                border: Border.all(color: Colors.white.withOpacity(0.08)),
+                border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
               ),
               child: Column(
                 children: [
@@ -88,7 +90,7 @@ class BecomeCallerScreen extends StatelessWidget {
             const SizedBox(height: 40),
 
             AppButton(
-              text: 'Apply Now',
+              text: AppText.applyNow.tr,
               onPressed: () {
                 warningSnack('This feature is coming soon! Stay tuned.');
               },
@@ -146,7 +148,7 @@ class BecomeCallerScreen extends StatelessWidget {
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.w900,
-              color: AppColors.primaryPurple.withOpacity(0.3),
+              color: AppColors.primaryPurple.withValues(alpha: 0.3),
             ),
           ),
           const SizedBox(width: 20),
@@ -165,7 +167,7 @@ class BecomeCallerScreen extends StatelessWidget {
                 Text(
                   desc,
                   style: TextStyle(
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                     fontSize: 14,
                   ),
                 ),
@@ -183,7 +185,7 @@ class BecomeCallerScreen extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-          color: AppColors.primaryPeach.withOpacity(0.7),
+          color: AppColors.primaryPeach.withValues(alpha: 0.7),
           fontSize: 13,
           fontWeight: FontWeight.bold,
           letterSpacing: 2,

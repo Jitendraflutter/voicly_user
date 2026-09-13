@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/core/utils/local_storage.dart';
 
-import '../core/route/routes.dart';
+import '../../core/route/routes.dart';
 
 class SplashController extends GetxController
     with GetSingleTickerProviderStateMixin {

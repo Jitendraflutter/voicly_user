@@ -1,15 +1,18 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'dart:ui';
+
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:core/core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:voicly/core/constant/app_assets.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/core/utils/local_storage.dart';
 import 'package:voicly/networks/auth_services.dart';
-import 'LogoutModal.dart';
-import 'package:core/core.dart';
-import 'package:voicly/core/constant/app_assets.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
+
+import 'LogoutModal.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -33,16 +36,16 @@ class ProfileScreen extends StatelessWidget {
               child: BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
                 child: FlexibleSpaceBar(
-                  title: const Text(
-                    "Profile",
-                    style: TextStyle(
+                  title: Text(
+                    AppText.profile.tr,
+                    style: const TextStyle(
                       color: AppColors.onBackground,
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                   ),
                   centerTitle: true,
-                  // background: Container(color: Colors.white.withOpacity(0.2)),
+                  // background: Container(color: Colors.white.withValues(alpha:0.2)),
                 ),
               ),
             ),
@@ -71,14 +74,14 @@ class ProfileScreen extends StatelessWidget {
                     const SizedBox(height: 30),
 
                     // Section 1: Account
-                    _buildSectionTitle("Account Management"),
+                    _buildSectionTitle(AppText.profileSection.tr),
                     const SizedBox(height: 5),
                     GlassContainer(
                       child: Column(
                         children: [
                           _profileTile(
                             CupertinoIcons.person_crop_circle_badge_checkmark,
-                            "Complete Profile",
+                            AppText.manageProfile.tr,
                             "$completion% Finished",
                             onPressed: () =>
                                 Get.toNamed(AppRoutes.UPDATE_PROFILE),
@@ -88,8 +91,8 @@ class ProfileScreen extends StatelessWidget {
                             onPressed: () =>
                                 Get.toNamed(AppRoutes.BLOCKED_USER_SCREEN),
                             CupertinoIcons.nosign,
-                            "Blocked Users",
-                            "Manage restrictions",
+                            AppText.blockedUser.tr,
+                            AppText.manageRestrictions.tr,
                           ),
                         ],
                       ),
@@ -97,44 +100,48 @@ class ProfileScreen extends StatelessWidget {
 
                     const SizedBox(height: 5),
 
-                    _buildSectionTitle("Preferences"),
+                    _buildSectionTitle(AppText.preferences.tr),
                     const SizedBox(height: 5),
 
                     GlassContainer(
                       child: Column(
                         children: [
                           _profileTile(
-                            CupertinoIcons.bell_fill,
-                            "Notifications",
-                            "Sounds & Alerts",
-                          ),
-
-                          _profileTile(
                             onPressed: () => Get.toNamed(AppRoutes.LANGUAGE),
                             CupertinoIcons.globe,
-                            "Language",
-                            "App language settings",
+                            AppText.language.tr,
+                            AppText.appLanguageSettings.tr,
                           ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
 
+                    _buildSectionTitle(AppText.legal.tr),
+                    const SizedBox(height: 5),
+
+                    GlassContainer(
+                      child: Column(
+                        children: [
                           _profileTile(
                             CupertinoIcons.shield_lefthalf_fill,
-                            "Privacy Policy",
-                            "Data usage & safety",
+                            AppText.privacyPolicy.tr,
+                            AppText.dataUsageSafety.tr,
                             onPressed: () =>
-                                Helpers.launchURL(AppStrings.privacyPolicy),
+                                Helpers.launchURL(AppText.privacyPolicy),
                           ),
 
                           _profileTile(
                             CupertinoIcons.doc_text_fill,
-                            "Terms & Conditions",
-                            "Legal agreements",
+                            AppText.termsAndConditions.tr,
+                            AppText.legalAgreements.tr,
                             onPressed: () =>
-                                Helpers.launchURL(AppStrings.termsOfService),
+                                Helpers.launchURL(AppText.termsOfService),
                           ),
                           _profileTile(
                             CupertinoIcons.person_2_fill,
-                            "Community Guidelines",
-                            "Rules & Standards",
+                            AppText.communityGuidelines.tr,
+                            AppText.rulesAndStandards.tr,
                             onPressed: () =>
                                 Helpers.launchURL(AppStrings.community),
                           ),
@@ -143,7 +150,7 @@ class ProfileScreen extends StatelessWidget {
                     ),
 
                     const SizedBox(height: 5),
-                    _buildSectionTitle("Support"),
+                    _buildSectionTitle(AppText.support.tr),
                     const SizedBox(height: 5),
 
                     GlassContainer(
@@ -151,18 +158,38 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           _profileTile(
                             CupertinoIcons.question_circle_fill,
-                            "Support Center",
+                            AppText.supportCenter.tr,
                             onPressed: () =>
                                 Get.toNamed(AppRoutes.SUPPORT_SCREEN),
-                            "Get help & contact us",
+                            AppText.getHelpContactUs.tr,
                           ),
                           _profileTile(
                             CupertinoIcons.money_dollar_circle,
-                            "Become Caller",
+                            AppText.becomeCaller.tr,
                             onPressed: () =>
                                 Get.toNamed(AppRoutes.BECOME_CALLER_SCREEN),
-                            "Start earning by joining our caller program",
+                            AppText.startEarningCaller.tr,
                           ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    _buildSectionTitle(AppText.account.tr),
+                    const SizedBox(height: 5),
+
+                    GlassContainer(
+                      child: Column(
+                        children: [
+                          _profileTile(
+                            CupertinoIcons.delete,
+                            AppText.deleteAccount.tr,
+                            AppText.permanentlyRemoveAccount.tr,
+                            isDestructive: true,
+                            onPressed: () {
+                              Get.toNamed(AppRoutes.DELETE_SCREEN);
+                            },
+                          ),
+
                           _profileTile(
                             CupertinoIcons.square_arrow_right,
                             onPressed: () {
@@ -173,8 +200,8 @@ class ProfileScreen extends StatelessWidget {
                                     true, // Allows the modal to take required height
                               );
                             },
-                            "Logout",
-                            "Sign out of your account",
+                            AppText.logout.tr,
+                            AppText.signOutOfAccount.tr,
                             isDestructive: true,
                           ),
                         ],
@@ -202,10 +229,10 @@ class ProfileScreen extends StatelessWidget {
           filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
           child: Container(
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.4),
+              color: Colors.white.withValues(alpha: 0.4),
               borderRadius: BorderRadius.circular(24),
               border: Border.all(
-                color: Colors.white.withOpacity(0.3),
+                color: Colors.white.withValues(alpha: 0.3),
                 width: 1,
               ),
             ),
@@ -238,7 +265,7 @@ class ProfileScreen extends StatelessWidget {
                     (isDestructive ? AppColors.error : AppColors.primaryLite
                         // AppColors.primaryPeach
                         )
-                        .withOpacity(0.1),
+                        .withValues(alpha: 0.1),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -268,7 +295,7 @@ class ProfileScreen extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 12,
-                        color: AppColors.onBackground.withOpacity(0.5),
+                        color: AppColors.onBackground.withValues(alpha: 0.5),
                       ),
                     ),
                 ],
@@ -277,7 +304,7 @@ class ProfileScreen extends StatelessWidget {
             Icon(
               CupertinoIcons.chevron_forward,
               size: 16,
-              color: Colors.grey.withOpacity(0.5),
+              color: Colors.grey.withValues(alpha: 0.5),
             ),
           ],
         ),
@@ -371,7 +398,9 @@ class ProfileScreen extends StatelessWidget {
         ),
         Text(
           subtitle,
-          style: TextStyle(color: AppColors.onBackground.withOpacity(0.6)),
+          style: TextStyle(
+            color: AppColors.onBackground.withValues(alpha: 0.6),
+          ),
         ),
       ],
     );

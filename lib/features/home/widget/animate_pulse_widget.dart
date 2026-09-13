@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:core/core.dart';
-import 'package:voicly/features/home/model/banner_model.dart';
-import 'package:voicly/core/constant/app_assets.dart';
 
+import 'package:core/core.dart';
+import 'package:flutter/material.dart';
+import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/features/home/model/banner_model.dart';
 
 class AnimatedPulseWidget extends StatefulWidget {
   final BannerModel banner;
@@ -64,8 +64,8 @@ class _AnimatedPulseWidgetState extends State<AnimatedPulseWidget> {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                // color: AppColors.primaryPeach.withOpacity(0.4),
-                color: AppColors.dark.withOpacity(0.4),
+                // color: AppColors.primaryPeach.withValues(alpha:0.4),
+                color: AppColors.dark.withValues(alpha: 0.4),
                 blurRadius: 15,
                 offset: const Offset(0, 8),
               ),
@@ -80,7 +80,7 @@ class _AnimatedPulseWidgetState extends State<AnimatedPulseWidget> {
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.6),
+                    color: Colors.black.withValues(alpha: 0.6),
                     borderRadius: BorderRadius.circular(20),
                   ),
                 ),
@@ -118,7 +118,7 @@ class _AnimatedPulseWidgetState extends State<AnimatedPulseWidget> {
                                 widget.banner.subtitle,
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
-                                  color: Colors.white.withOpacity(0.8),
+                                  color: Colors.white.withValues(alpha: 0.8),
                                   fontSize: 12,
                                 ),
                               ),

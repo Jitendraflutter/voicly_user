@@ -1,7 +1,10 @@
-import 'package:flutter/material.dart';
 import 'package:core/core.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:voicly/controller/language_controller.dart';
+import 'package:voicly/features/language/language_screen.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
-
 
 class BaseAuthLayout extends StatelessWidget {
   final String title;
@@ -52,7 +55,56 @@ class BaseAuthLayout extends StatelessWidget {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: 80),
+                            const SizedBox(height: 12),
+                            // Language picker — top right
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Obx(() {
+                                final langCode = Get.find<LanguageController>().currentLangCode;
+                                return CupertinoButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: () => Get.bottomSheet(
+                                    const LanguageSelectionScreen(asSheet: true),
+                                    backgroundColor: Colors.transparent,
+                                  ),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+                                    decoration: BoxDecoration(
+                                      color: Colors.white.withValues(alpha: 0.08),
+                                      borderRadius: BorderRadius.circular(20),
+                                      border: Border.all(
+                                        color: Colors.white.withValues(alpha: 0.15),
+                                      ),
+                                    ),
+                                    child: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
+                                          langCode == 'hi' ? '🇮🇳' : '🇺🇸',
+                                          style: const TextStyle(fontSize: 16),
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Text(
+                                          langCode == 'hi' ? 'हिन्दी' : 'EN',
+                                          style: TextStyle(
+                                            fontSize: 13,
+                                            fontWeight: FontWeight.w600,
+                                            color: AppColors.onBackground,
+                                          ),
+                                        ),
+                                        const SizedBox(width: 4),
+                                        Icon(
+                                          CupertinoIcons.chevron_down,
+                                          size: 11,
+                                          color: AppColors.onBackground.withValues(alpha: 0.6),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
+                            const SizedBox(height: 40),
                             Text(
                               title,
                               style: const TextStyle(
@@ -121,7 +173,7 @@ class BaseAuthLayout extends StatelessWidget {
             height: 300,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: AppColors.logoGradient.withOpacity(0.2),
+              gradient: AppColors.logoGradient.withValues(alpha:0.2),
             ),
           ),
         ),
@@ -145,7 +197,7 @@ class BaseAuthLayout extends StatelessWidget {
                   subtitle,
                   style: TextStyle(
                     fontSize: 16,
-                    color: AppColors.onBackground.withOpacity(0.6),
+                    color: AppColors.onBackground.withValues(alpha:0.6),
                   ),
                 ),
                 const SizedBox(height: 60),

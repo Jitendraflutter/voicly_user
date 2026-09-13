@@ -17,10 +17,14 @@ class LocalStorage {
   //Added userId
   static const _uid = "uid";
   static const _points = "points";
+  static const _language = "selected_language";
 
   // Add these methods to LocalStorage class
   static void setUid(String val) => _storage.write(_uid, val);
   static String getUid() => _storage.read(_uid) ?? "";
+
+  static void setLanguage(String val) => _storage.write(_language, val);
+  static String getLanguage() => _storage.read(_language) ?? "en";
 
   static void setPoints(num val) => _storage.write(_points, val);
   static num getPoints() => _storage.read(_points) ?? 0;

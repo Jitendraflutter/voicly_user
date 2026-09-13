@@ -19,6 +19,8 @@ class PaymentController extends GetxController {
 
   Future<void> openCheckout(num amountInRupees, int point, String subID) async {
     try {
+      print("================Mobile===============");
+      print(authService.currentUser.value?.mobile ?? "");
       Get.snackbar(
         "Please wait",
         "Generating secure order...",
@@ -40,7 +42,10 @@ class PaymentController extends GetxController {
           'order_id': orderId, // The secure ID from Firebase!
           'name': 'Voicly App',
           'description': 'Wallet Recharge',
-          'prefill': {'email': authService.currentUser.value?.email ?? ""},
+          'prefill': {
+            'email': authService.currentUser.value?.email ?? "",
+            "contact": authService.currentUser.value?.mobile ?? "",
+          },
           'notes': {
             'uid': authService.currentUser.value!.uid,
             'points': point.toString(), // 🟢 Pass the points here

@@ -1,11 +1,10 @@
-import 'dart:ui';
+import 'package:voicly/core/constants/app_text.dart';
+import 'package:core/core.dart';
 import 'package:core/widget/widget_wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:core/core.dart';
-import 'package:voicly/widget/screen_wrapper.dart';
-import '../../../model/caller_model.dart';
 import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/model/caller_model.dart';
 
 class ProfileSheet extends StatelessWidget {
   final CallerModel callerModel;
@@ -55,7 +54,7 @@ class ProfileSheet extends StatelessWidget {
           onPressed: () => Get.back(),
           icon: const Icon(Icons.close_rounded, color: AppColors.primaryLite),
           style: IconButton.styleFrom(
-            backgroundColor: AppColors.primaryLite.withOpacity(0.2),
+            backgroundColor: AppColors.primaryLite.withValues(alpha: 0.2),
           ),
         ),
       ],
@@ -101,7 +100,7 @@ class ProfileSheet extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.blueAccent.withOpacity(0.05),
+        color: Colors.blueAccent.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Text(
@@ -115,16 +114,19 @@ class ProfileSheet extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: AppButton(
-            text: 'Video',
-            onPressed: () {},
-            icon: Icons.videocam_rounded,
+          child: Opacity(
+            opacity: 0.6,
+            child: AppButton(
+              text: AppText.video.tr,
+              onPressed: null,
+              icon: Icons.videocam_rounded,
+            ),
           ),
         ),
         const SizedBox(width: 10),
         Expanded(
           child: AppButton(
-            text: "Audio",
+            text: AppText.audio.tr,
             onPressed: () {},
             icon: Icons.call_rounded,
           ),
@@ -140,15 +142,15 @@ class ProfileSheet extends StatelessWidget {
         TextButton.icon(
           onPressed: () {},
           icon: const Icon(Icons.report, color: Colors.redAccent),
-          label: const Text(
-            "Report",
-            style: TextStyle(color: Colors.redAccent),
+          label: Text(
+            AppText.report.tr,
+            style: const TextStyle(color: Colors.redAccent),
           ),
         ),
         TextButton.icon(
           onPressed: () {},
           icon: const Icon(Icons.share, color: Colors.blueGrey),
-          label: const Text("Share", style: TextStyle(color: Colors.blueGrey)),
+          label: Text(AppText.share.tr, style: const TextStyle(color: Colors.blueGrey)),
         ),
       ],
     );

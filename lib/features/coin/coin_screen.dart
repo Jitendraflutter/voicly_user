@@ -1,10 +1,11 @@
 import 'dart:ui';
-
 import 'package:core/core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart'; // 🟢 Added import
 import 'package:get/get.dart';
 import 'package:voicly/controller/payment/payment_controller.dart';
 import 'package:voicly/core/constant/app_assets.dart';
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:voicly/core/route/routes.dart';
 import 'package:voicly/features/coin/widget/point_card.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
@@ -22,7 +23,7 @@ class CoinScreen extends StatelessWidget {
 
     return ScreenWrapper(
       visibleAppBar: true,
-      title: "Voicly Points Store",
+      title: AppText.voiclyPointsStore.tr,
       child: Stack(
         children: [
           Obx(
@@ -34,11 +35,13 @@ class CoinScreen extends StatelessWidget {
                   )
                 : SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20.w,
+                    ), // 🟢 Scaled
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h), // 🟢 Scaled
                         _buildCurrentBalanceHeader(authService),
                         ..._buildCategoryGroup(
                           controller,
@@ -56,7 +59,9 @@ class CoinScreen extends StatelessWidget {
                           "starter",
                         ),
                         ..._buildCategoryGroup(controller, "Elite", "elite"),
-                        const SizedBox(height: 140),
+                        SizedBox(
+                          height: 140.h,
+                        ), // 🟢 Scaled to clear the bottom bar
                       ],
                     ),
                   ),
@@ -79,23 +84,23 @@ class CoinScreen extends StatelessWidget {
 
     return [
       Padding(
-        padding: const EdgeInsets.only(top: 25, bottom: 12),
+        padding: EdgeInsets.only(top: 25.h, bottom: 12.h), // 🟢 Scaled
         child: Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: Colors.white70,
             fontWeight: FontWeight.bold,
-            fontSize: 14,
+            fontSize: 14.sp, // 🟢 Scaled
           ),
         ),
       ),
       GridView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 15,
-          crossAxisSpacing: 15,
+          mainAxisSpacing: 15.h, // 🟢 Scaled
+          crossAxisSpacing: 15.w, // 🟢 Scaled
           childAspectRatio: 0.82,
         ),
         itemCount: filtered.length,
@@ -120,20 +125,26 @@ class CoinScreen extends StatelessWidget {
   // --- HEADER: CURRENT BALANCE ---
   Widget _buildCurrentBalanceHeader(AuthService auth) {
     return ClipRRect(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(20.r), // 🟢 Scaled
       child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        filter: ImageFilter.blur(
+          sigmaX: 10,
+          sigmaY: 10,
+        ), // Kept absolute for crisp blur
         child: InkWell(
           onTap: () {
             Get.toNamed(AppRoutes.TRANSACTION);
           },
           child: Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6.0),
+            padding: EdgeInsets.symmetric(
+              horizontal: 20.w,
+              vertical: 6.h,
+            ), // 🟢 Scaled
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.2),
-              borderRadius: BorderRadius.circular(20),
-              border: Border.all(color: Colors.white.withOpacity(0.3)),
+              color: Colors.white.withValues(alpha: 0.2),
+              borderRadius: BorderRadius.circular(20.r), // 🟢 Scaled
+              border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -142,24 +153,27 @@ class CoinScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Current Balance",
-                      style: TextStyle(color: Colors.white70, fontSize: 14),
+                      AppText.currentBalance.tr,
+                      style: TextStyle(
+                        color: Colors.white70,
+                        fontSize: 14.sp,
+                      ), // 🟢 Scaled
                     ),
 
                     Obx(() {
                       return Text(
                         "${(auth.currentUser.value?.points ?? 0).toString()} VP",
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: 18.sp, // 🟢 Scaled
                           fontWeight: FontWeight.bold,
                           color: AppColors.onBackground,
                         ),
                       );
                     }),
                     Text(
-                      "View transaction history ->",
+                      AppText.viewTransactionHistory.tr,
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 12.sp, // 🟢 Scaled
                         fontWeight: FontWeight.bold,
                         color: Colors.grey.shade400,
                       ),
@@ -168,8 +182,8 @@ class CoinScreen extends StatelessWidget {
                 ),
                 Image.asset(
                   AppAssets.vp,
-                  width: 80,
-                  height: 80,
+                  width: 80.w, // 🟢 Scaled symmetrically
+                  height: 80.w,
                   fit: BoxFit.contain,
                 ),
               ],
@@ -203,10 +217,10 @@ class CoinScreen extends StatelessWidget {
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 300),
               // Increase height slightly when selected to show details
-              height: hasSelection ? 130 : 100,
-              padding: const EdgeInsets.fromLTRB(25, 10, 25, 20),
+              height: hasSelection ? 130.h : 100.h, // 🟢 Scaled
+              padding: EdgeInsets.fromLTRB(25.w, 10.h, 25.w, 20.h), // 🟢 Scaled
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withValues(alpha: 0.6),
                 border: const Border(top: BorderSide(color: Colors.white12)),
               ),
               child: Column(
@@ -214,24 +228,24 @@ class CoinScreen extends StatelessWidget {
                 children: [
                   if (hasSelection)
                     Padding(
-                      padding: const EdgeInsets.only(bottom: 12),
+                      padding: EdgeInsets.only(bottom: 12.h), // 🟢 Scaled
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
                             "${selected.points} Points selected",
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: AppColors.primaryLavender,
-                              fontSize: 13,
+                              fontSize: 13.sp, // 🟢 Scaled
                               fontWeight: FontWeight.w500,
                             ),
                           ),
                           if (savings > 0)
                             Text(
                               "You save ₹$savings!",
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: AppColors.green,
-                                fontSize: 13,
+                                fontSize: 13.sp, // 🟢 Scaled
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -248,14 +262,14 @@ class CoinScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Text(
-                              "Total Payable",
+                            Text(
+                              AppText.totalPayable.tr,
                               style: TextStyle(
                                 color: Colors.white54,
-                                fontSize: 12,
+                                fontSize: 12.sp, // 🟢 Scaled
                               ),
                             ),
-                            const SizedBox(height: 2),
+                            SizedBox(height: 2.h), // 🟢 Scaled
                             Expanded(
                               child: Text(
                                 hasSelection
@@ -265,7 +279,7 @@ class CoinScreen extends StatelessWidget {
                                   color: hasSelection
                                       ? Colors.white
                                       : Colors.white38,
-                                  fontSize: 24,
+                                  fontSize: 24.sp, // 🟢 Scaled
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -276,10 +290,11 @@ class CoinScreen extends StatelessWidget {
                           bool hasSelection =
                               controller.selectedIndex.value != -1;
                           return !hasSelection
-                              ? SizedBox.shrink()
+                              ? const SizedBox.shrink()
                               : AppButton(
+                                  // MediaQuery is naturally responsive, so we can leave it or wrap it in .w
                                   width: MediaQuery.sizeOf(context).width / 2,
-                                  text: 'Purchase Now',
+                                  text: AppText.purchaseNow.tr,
                                   onPressed: () {
                                     final paymentCtr = Get.put(
                                       PaymentController(),
@@ -302,22 +317,5 @@ class CoinScreen extends StatelessWidget {
         ),
       );
     });
-  }
-
-  Widget _buildGlassContainer({required Widget child}) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
-      child: BackdropFilter(
-        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.white.withOpacity(0.15),
-            borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: Colors.white.withOpacity(0.2)),
-          ),
-          child: child,
-        ),
-      ),
-    );
   }
 }

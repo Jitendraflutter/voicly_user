@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,7 +15,7 @@ class TransactionHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScreenWrapper(
-      title: "Transaction History",
+      title: AppText.transactionHistory.tr,
       visibleAppBar: true,
 
       child: Obx(() {
@@ -25,7 +26,7 @@ class TransactionHistoryScreen extends StatelessWidget {
         if (controller.transactions.isEmpty) {
           return Center(
             child: Text(
-              "No transactions found.",
+              AppText.noTransactionsFound.tr,
               style: TextStyle(fontSize: 16, color: Colors.grey),
             ),
           );

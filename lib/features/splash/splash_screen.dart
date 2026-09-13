@@ -1,10 +1,10 @@
+import 'package:voicly/core/constants/app_text.dart';
+import 'package:core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:voicly/controller/splash_controller.dart';
 import 'package:voicly/core/constant/app_assets.dart';
-import 'package:core/core.dart';
 import 'package:voicly/widget/screen_wrapper.dart';
-
 
 class SplashScreen extends GetView<SplashController> {
   const SplashScreen({super.key});
@@ -32,7 +32,7 @@ class SplashScreen extends GetView<SplashController> {
                     const SizedBox(height: 24),
 
                     // const Text(
-                    //   AppStrings.appName,
+                    //   AppText.appName,
                     //   style: TextStyle(
                     //     color: AppColors.primaryPeach,
                     //     fontSize: 28,
@@ -84,7 +84,7 @@ class SplashScreen extends GetView<SplashController> {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha: 0.1),
         shape: BoxShape.circle,
       ),
     );
@@ -133,9 +133,9 @@ class SplashScreen extends GetView<SplashController> {
                   children: [
                     Image.asset(AppAssets.logo, height: 120, width: 120),
                     const SizedBox(height: 24),
-                    const Text(
-                      "Voicly",
-                      style: TextStyle(
+                    Text(
+                      AppText.voicly.tr,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 28,
                         fontWeight: FontWeight.bold,
@@ -143,9 +143,9 @@ class SplashScreen extends GetView<SplashController> {
                       ),
                     ),
                     const SizedBox(height: 24),
-                    const Text(
-                      "Because Every Voice Has a Story",
-                      style: TextStyle(
+                    Text(
+                      AppText.becauseEveryVoiceHasAStory.tr,
+                      style: const TextStyle(
                         color: Colors.white,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
@@ -179,7 +179,7 @@ class SplashScreen extends GetView<SplashController> {
       width: size,
       height: size,
       decoration: BoxDecoration(
-        color: Colors.white.withOpacity(0.1),
+        color: Colors.white.withValues(alpha:0.1),
         shape: BoxShape.circle,
       ),
     );

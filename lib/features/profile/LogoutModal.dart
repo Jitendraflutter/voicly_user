@@ -1,3 +1,4 @@
+import 'package:voicly/core/constants/app_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -52,7 +53,7 @@ class LogoutModal extends StatelessWidget {
 
           // 2. Title
           Text(
-            "Are you sure you want to logout from your account?",
+            AppText.areYouSureYouWantToLogoutFromYourAccount.tr,
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
@@ -63,7 +64,7 @@ class LogoutModal extends StatelessWidget {
           SizedBox(height: 30),
 
           AppButton(
-            text: 'Logout',
+            text: AppText.logout.tr,
             icon: CupertinoIcons.square_arrow_right,
             onPressed: () {
               LocalStorage.clearLogInSession();
